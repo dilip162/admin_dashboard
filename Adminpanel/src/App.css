@@ -1,0 +1,19 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: whitesmoke;
+}
+
+form {
+  width: 600px;
+  border: 1px solid black;
+  padding: 30px;
+  border-radius: 6px;
+  background: white;
+}
+
+.remebertxt {
+  font-size: 1.2rem;
+}
