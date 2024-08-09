@@ -8,4 +8,15 @@ module.exports = class User {
       });
     });
   }
+
+  fetchUser(username, password) {
+    return new Promise((resolve, reject) => {
+      db.execute(
+        `SELECT * FROM users WHERE username = ${username} AND ${password}`
+      ).then(([row]) => {
+        console.log(row);
+        resolve(row);
+      });
+    });
+  }
 };
