@@ -1,6 +1,6 @@
 import { Button, TextField } from "@mui/material";
 import { useState } from "react";
-import Header from "./components/Header";
+
 import "./App.css";
 const App = () => {
   const [remember, setRemember] = useState(false);
@@ -79,7 +79,7 @@ const App = () => {
 
   return (
     <>
-      <Header />
+      
       <div className="container">
         <form onSubmit={handlesubmit}>
           <h1>Admin Login</h1>
