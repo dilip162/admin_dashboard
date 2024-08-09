@@ -1,6 +1,8 @@
-const express = require("express");
-const app = express();
+const User = require("../models/users");
 
-app.get("/", (req, res) => {
-  res.send("Hello world");
-});
+exports.getUsers = async (req, res, next) => {
+  const user = new User();
+  let data = await user.fetchAll();
+  //res.status(200).send(data);
+  return data;
+};
