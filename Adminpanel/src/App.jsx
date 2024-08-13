@@ -1,6 +1,8 @@
 import { Button, TextField } from "@mui/material";
 import { useState } from "react";
 import "./App.css";
+import "./utils/intercepter.js";
+
 const App = () => {
   const [remember, setRemember] = useState(false);
   const [formValues, setFormValues] = useState({

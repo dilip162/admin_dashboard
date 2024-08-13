@@ -1,14 +1,301 @@
-const User = require("../models/users");
+const db = require("../config/db");
+const jwt = require("jsonwebtoken");
 
-exports.getUsers = async (req, res, next) => {
-  const user = new User();
-  let data = await user.fetchAll();
-  //res.status(200).send(data);
-  return data;
+// Secret key for signing the token
+const secretKey = process.env.JWT_SECRET_KEY;
+
+// GET all user list
+const getUsers = async (req, res) => {
+  try {
+    const data = await db.query("SELECT * FROM users");
+
+    if (!data) {
+      return res.status(401).send({
+        success: false,
+        message: "data not found",
+      });
+    }
+
+    res.status(200).send({
+      success: true,
+      message: "All user record",
+      totalUsers: data[0].length,
+      data: data[0],
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error in GET all user API",
+      error,
+    });
+  }
 };
 
-exports.getUser = async (req, res, next) => {
-  const user = new User();
-  let userData = await user.fetchUser();
-  return userData;
+// GET users by id
+const getUserById = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    if (!userId) {
+      return res.status(401).send({
+        success: false,
+        message: "invalid student id provided",
+      });
+    }
+    const data = await db.query("SELECT * FROM users WHERE id=?", [userId]);
+    if (!data) {
+      res.status(401).send({
+        success: false,
+        message: "No records found ",
+      });
+    }
+    res.status(200).send({
+      success: true,
+      userDetails: data[0],
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error in get user by Id API",
+      error,
+    });
+  }
+};
+
+const createUser = async (req, res) => {
+  try {
+    const {
+      username,
+      password,
+      email,
+      fname,
+      lname,
+      gender,
+      address,
+      city,
+      state,
+      pincode,
+      country,
+      image_URL,
+      remember,
+    } = req.body;
+
+    if (
+      !username ||
+      !password ||
+      !email ||
+      !fname ||
+      !lname ||
+      !gender ||
+      !address ||
+      !city ||
+      !state ||
+      !pincode ||
+      !country ||
+      !image_URL ||
+      !remember
+    ) {
+      return res.status(500).send({
+        success: false,
+        message: "Please provide all field",
+      });
+    }
+
+    const data = await db.query(
+      "INSERT INTO users (username, password, email, fname, lname, gender, address, city, state, pincode, country, image_URL, remember) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",
+      [
+        username,
+        password,
+        email,
+        fname,
+        lname,
+        gender,
+        address,
+        city,
+        state,
+        pincode,
+        country,
+        image_URL,
+        remember,
+      ]
+    );
+
+    if (!data) {
+      res.status(401).send({
+        success: false,
+        message: "Error in INSERT query",
+      });
+    }
+
+    res.status(200).send({
+      success: true,
+      message: "user Data Inserted sucessfully",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error in create student API",
+      error,
+    });
+  }
+};
+
+// Update user
+const updateStudent = async (req, res) => {
+  try {
+    const userId = req.params.id;
+
+    if (!userId) {
+      return res.status(401).send({
+        success: false,
+        message: "Invalid id or provide the id",
+      });
+    }
+    const {
+      username,
+      password,
+      email,
+      fname,
+      lname,
+      gender,
+      address,
+      city,
+      state,
+      pincode,
+      country,
+      image_URL,
+      remember,
+    } = req.body;
+
+    const data = await db.query(
+      "UPDATE users SET username=?, password=?, email=?, fname=?, lname=?, gender=?, address=?, city=?, state=?, pincode=?, country=?, image_URL=?, remember=? WHERE id=?",
+      [
+        username,
+        password,
+        email,
+        fname,
+        lname,
+        gender,
+        address,
+        city,
+        state,
+        pincode,
+        country,
+        image_URL,
+        remember,
+      ]
+    );
+
+    if (!data) {
+      return res.status(500).send({
+        success: false,
+        message: "Error in updating data",
+      });
+    }
+
+    res.status(200).send({
+      success: true,
+      message: "user Data updated",
+    });
+
+    if (!studentId) {
+      return res.status(401).send({
+        success: false,
+        message: "student Id is not valid",
+      });
+    }
+
+    return;
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error in update user API",
+      error,
+    });
+  }
+};
+
+const deleteUser = async (req, res) => {
+  try {
+    const studentId = req.params.id;
+    if (!studentId) {
+      return res.status(401).send({
+        success: false,
+        message: "Invalid user id entered",
+      });
+    }
+
+    await db.query("DELETE FROM users WHERE id =?", [studentId]);
+    res.status(200).send({
+      success: true,
+      message: "user deleted sucessfully",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status.send({
+      success: false,
+      message: "Error in delete user API",
+      error,
+    });
+  }
+};
+
+//Login user
+
+const login = async (req, res) => {
+  try {
+    const username = req.body.username;
+    const password = req.body.password;
+
+    const query = "SELECT * FROM users WHERE username=? AND password=?";
+
+    db.query(query, [username, password]).then(([results, fields]) => {
+      if (results.length > 0) {
+        const payload = {
+          id: results[0].id,
+          username: results[0].username,
+          email: results[0].email,
+        };
+
+        // Options for the token
+        const options = {
+          expiresIn: "1h", // Token will expire in 1 hour
+        };
+
+        // Create the token
+        const token = jwt.sign(payload, secretKey, options);
+        // console.log(token);
+
+        res.status(200).send({
+          success: true,
+          data: results[0],
+          token: token,
+          message: "you logged in sucessfully!",
+        });
+      } else {
+        return res.status(401).send({
+          success: "false",
+          message: "you cannot login",
+        });
+      }
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: true,
+      message: "Invalid username or password",
+    });
+  }
+};
+
+module.exports = {
+  getUsers,
+  getUserById,
+  createUser,
+  updateStudent,
+  deleteUser,
+  login,
 };
