@@ -168,9 +168,9 @@ const updateStudent = async (req, res) => {
       image_URL,
       remember,
     } = req.body;
-
+    console.log(req);
     const data = await db.query(
-      "UPDATE users SET username=?, password=?, email=?, fname=?, lname=?, gender=?, address=?, city=?, state=?, pincode=?, country=?, image_URL=?, remember=? WHERE id=?",
+      `UPDATE users SET username=?, password=?, email=?, fname=?, lname=?, gender=?, address=?, city=?, state=?, pincode=?, country=?, image_URL=?, remember=? WHERE id=${userId}`,
       [
         username,
         password,
@@ -185,6 +185,7 @@ const updateStudent = async (req, res) => {
         country,
         image_URL,
         remember,
+        userId,
       ]
     );
 
@@ -200,10 +201,10 @@ const updateStudent = async (req, res) => {
       message: "user Data updated",
     });
 
-    if (!studentId) {
+    if (!userId) {
       return res.status(401).send({
         success: false,
-        message: "student Id is not valid",
+        message: "user Id is not valid",
       });
     }
 
