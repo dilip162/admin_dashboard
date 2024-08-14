@@ -1,8 +1,10 @@
 import { Button, TextField } from "@mui/material";
 import { useState } from "react";
-// import api from "../utils/intercepter";
+import api from "../utils/intercepter";
+import { json, Navigate, useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const navigate = useNavigate();
   const [remember, setRemember] = useState(false);
   const [formValues, setFormValues] = useState({
     username: {
@@ -54,18 +56,29 @@ const Login = () => {
       });
 
       // ---------------
-    }
-
-    setRemember(!remember);
-    const usernameVal = formValues.username.value;
-    const passwordVal = formValues.password.value;
-
-    if (usernameVal && passwordVal) {
-      if (document.getElementById("remember").checked) {
-        localStorage.setItem("username", usernameVal);
-        localStorage.setItem("password", passwordVal);
-        console.log("hello");
-      }
+    } else {
+      const username = formValues.username.value;
+      const password = formValues.password.value;
+      api
+        .post("/login", {
+          username,
+          password,
+        })
+        .then((response) => {
+          console.log(response);
+          if (response.data) {
+            localStorage.setItem("token", response.data.token);
+            localStorage.setItem(
+              "userdata",
+              JSON.stringify(response.data.data)
+            );
+            // Route to /admin/dashboard
+            navigate("/admin/dashboard");
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
 
     return false;
