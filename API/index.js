@@ -1,53 +1,36 @@
 const express = require("express");
+const dotenv = require("dotenv");
+const mySqlPool = require("./config/db");
 
-const cors = require("cors");
-const userRouter = require("./routes/userRoute");
+// rest objest
 const app = express();
 
-app.use(cors());
+// config dotenv
+dotenv.config();
+
+// middleware
 app.use(express.json());
 
-app.use(
-  express.urlencoded({
-    extended: true,
+// routes
+app.use("/api/v1/user", require("./routes/userRoutes"));
+
+app.get("/test", (req, res) => {
+  res.status(200).send("App is running!");
+});
+
+// PORT
+const PORT = process.env.PORT || 8000;
+
+// Conditionally listen
+mySqlPool
+  .query("SELECT 1")
+  .then(() => {
+    //my connection
+    console.log("mysql db connected");
+    app.listen(PORT, () => {
+      console.log(`App is running on ${PORT} port`);
+    });
   })
-);
-app.use("/", userRouter);
-app.get("/", (req, res) => {
-  res.send("Home page!");
-});
-
-// ____________________
-
-app.get("/users", (req, res) => {
-  dbConn.query("SELECT * from userdata", (error, results, fields) => {
-    if (error) throw error;
-    return res.send({ error: false, data: results, message: "user list" });
+  .catch((error) => {
+    console.log(error);
   });
-});
-
-app.get("/user/:id", (req, res) => {
-  let user_id = req.params.id;
-  if (!user_id) {
-    return res
-      .status(400)
-      .send({ error: true, message: "user is does not find" });
-  }
-  dbConn.query(
-    "SELECT * from userdata WHERE id=?",
-    user_id,
-    (error, results, fields) => {
-      if (error) throw error;
-      return res.send({
-        error: false,
-        data: results[0],
-        message: "users list",
-      });
-    }
-  );
-});
-
-app.listen(3000, (err) => {
-  if (err) throw err;
-  console.log("App is listning on 3000");
-});
