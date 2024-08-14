@@ -1,9 +1,9 @@
 import { Button, TextField } from "@mui/material";
 import { useState } from "react";
+// import api from "../utils/intercepter";
 
-const Login =() =>{
-
-    const [remember, setRemember] = useState(false);
+const Login = () => {
+  const [remember, setRemember] = useState(false);
   const [formValues, setFormValues] = useState({
     username: {
       value: "",
@@ -40,17 +40,20 @@ const Login =() =>{
       !formValues.username.value ||
       !formValues.password.value
     ) {
+      // --------------------
       setFormValues({
         ...formValues,
         [username]: {
           ...formValues[username],
-          error: !formValues.name.value ? true : false,
+          error: !formValues.username.value ? true : false,
         },
         [password]: {
           ...formValues[password],
           error: !formValues.password.value ? true : false,
         },
       });
+
+      // ---------------
     }
 
     setRemember(!remember);
@@ -77,9 +80,9 @@ const Login =() =>{
     });
   };
 
-    return (
-        <>
-        <div className="container">
+  return (
+    <>
+      <div className="container">
         <form onSubmit={handlesubmit}>
           <h1>Admin Login</h1>
           <div className="form_conatiner">
@@ -140,8 +143,8 @@ const Login =() =>{
           </div>
         </form>
       </div>
-        </>
-    )
-}
+    </>
+  );
+};
 
 export default Login;
