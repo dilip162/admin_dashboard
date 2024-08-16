@@ -219,6 +219,8 @@ const updateStudent = async (req, res) => {
   }
 };
 
+// Delete users
+
 const deleteUser = async (req, res) => {
   try {
     const studentId = req.params.id;
@@ -292,6 +294,107 @@ const login = async (req, res) => {
   }
 };
 
+// ----------------------- Getting the form data -------------------
+
+// Getting the countries
+
+const getCountries = async (req, res) => {
+  try {
+    const data = await db.query("SELECT * FROM countries");
+
+    if (!data) {
+      return res.status(401).send({
+        success: false,
+        message: "data not found",
+      });
+    }
+
+    res.status(200).send({
+      success: true,
+      message: "All countries record",
+      totalCountries: data[0].length,
+      data: data[0],
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error in GET all user API",
+      error,
+    });
+  }
+};
+
+// Getting the states
+
+const getStates = async (req, res) => {
+  try {
+    const countryId = req.params.id;
+
+    if (!countryId) {
+      return res.status(401).send({
+        success: false,
+        message: "invalid Country id provided",
+      });
+    }
+    const data = await db.query("SELECT * FROM states WHERE country_id=?", [
+      countryId,
+    ]);
+    if (!data) {
+      res.status(401).send({
+        success: false,
+        message: "No records found ",
+      });
+    }
+    res.status(200).send({
+      success: true,
+      stateDetails: data[0],
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error in get states by Id API",
+      error,
+    });
+  }
+};
+
+// getting the cities
+
+const getCities = async (req, res) => {
+  try {
+    const stateId = req.params.id;
+
+    if (!stateId) {
+      return res.status(401).send({
+        success: false,
+        message: "invalid state id provided",
+      });
+    }
+    const data = await db.query("SELECT * FROM cities WHERE state_id=?", [
+      stateId,
+    ]);
+    if (!data) {
+      res.status(401).send({
+        success: false,
+        message: "No records found ",
+      });
+    }
+    res.status(200).send({
+      success: true,
+      cityDetails: data[0],
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error in get states by Id API",
+      error,
+    });
+  }
+};
+
 module.exports = {
   getUsers,
   getUserById,
@@ -299,4 +402,7 @@ module.exports = {
   updateStudent,
   deleteUser,
   login,
+  getCountries,
+  getStates,
+  getCities,
 };
