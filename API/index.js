@@ -14,6 +14,7 @@ app.use(cors());
 
 // routes
 app.use("/api/v1/user", require("./routes/userRoutes"));
+app.use("/api/v1/page", require("./routes/pagesRoutes"));
 
 app.get("/test", (req, res) => {
   res.status(200).send("App is running!");
