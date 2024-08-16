@@ -64,7 +64,7 @@ const Login = () => {
       if (document.getElementById("remember").checked) {
         localStorage.setItem("username", usernameVal);
         localStorage.setItem("password", passwordVal);
-        console.log("hello");
+        // console.log("hello");
       }
     }
 
