@@ -1,35 +1,45 @@
 const db = require("../config/db");
 
-// create the pages
+// ------- create page ------------
 
 const createPage = async (req, res) => {
   try {
-    const [name, url, title, short_description, category, cat] = req.body;
+    const { name, url, title, short_description, category, cat } = req.body;
+
+    if (!name || !url || !title || !short_description || !category || !cat) {
+      return res.status(500).send({
+        success: false,
+        message: "Please provide all field",
+      });
+    }
 
     const data = await db.query(
-      `INSERT INTO pages (name, url, title, short_description, category, cat) VALUES (?,?,?,?,?,?),[${name}, ${url}, ${title}, ${short_description}, ${category}, ${cat}]`
+      "INSERT INTO pages (name, url, title, short_description, category, cat) VALUES (?,?,?,?,?,?)",
+      [name, url, title, short_description, category, cat]
     );
 
     if (!data) {
       res.status(401).send({
         success: false,
-        message: "data not inserted",
+        message: "Error in INSERT query",
       });
     }
+
     res.status(200).send({
       success: true,
-      message: "Data inserted succesfully",
+      message: "page Data Inserted sucessfully",
     });
   } catch (error) {
     console.log(error);
     res.status(500).send({
       success: false,
-      message: "Error in create page API",
+      message: "Error in create Pages API",
+      error,
     });
   }
 };
 
-// get all pages
+// --------- get all pages -----------
 const getallPages = async (req, res) => {
   try {
     const data = await db.query("SELECT * FROM pages");
@@ -56,7 +66,7 @@ const getallPages = async (req, res) => {
   }
 };
 
-// get the page by id
+// -------- get page by id -------------
 
 const getPage = async (req, res) => {
   try {
@@ -91,4 +101,71 @@ const getPage = async (req, res) => {
   }
 };
 
-module.exports = { getallPages, getPage, createPage };
+// -------- upadte page by id -------------
+
+const updatepage = async (req, res) => {
+  try {
+    const pageId = req.params.id;
+
+    if (!pageId) {
+      return res.status(401).send({
+        success: false,
+        message: "page id not found",
+      });
+    }
+
+    const { name, url, title, short_description, category, cat } = req.body;
+
+    if (!name || !url || !title || !short_description || !category || !cat) {
+      return res.status(500).send({
+        success: false,
+        message: "Please provide all field",
+      });
+    }
+
+    const data = await db.query(
+      `UPDATE pages SET name=?, url=?, title=?, short_description=?, category=?, cat=? WHERE id=${pageId}`,
+      [name, url, title, short_description, category, cat]
+    );
+
+    res.status(200).send({
+      success: true,
+      message: "data updated sucessfully !",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error in update API",
+    });
+  }
+};
+
+// ------------ Delete page data --------------
+
+const deletePage = async (req, res) => {
+  try {
+    const pageId = req.params.id;
+
+    if (!pageId) {
+      return res.status(401).send({
+        success: false,
+        message: "page id not found",
+      });
+    }
+
+    await db.query(`DELETE FROM pages WHERE id=?`, [pageId]);
+    res.status(200).send({
+      success: true,
+      message: "Data is deleted successfully",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error in delete API",
+    });
+  }
+};
+
+module.exports = { getallPages, getPage, createPage, updatepage, deletePage };
