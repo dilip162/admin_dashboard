@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 // Secret key for signing the token
 const secretKey = process.env.JWT_SECRET_KEY;
 
-// GET all user list
+// --------- GET all user list ---------------
 const getUsers = async (req, res) => {
   try {
     const data = await db.query("SELECT * FROM users");
@@ -32,7 +32,7 @@ const getUsers = async (req, res) => {
   }
 };
 
-// GET users by id
+// ---------- GET users by id -----------
 const getUserById = async (req, res) => {
   try {
     const userId = req.params.id;
@@ -62,6 +62,8 @@ const getUserById = async (req, res) => {
     });
   }
 };
+
+// ----------- Create User ---------------
 
 const createUser = async (req, res) => {
   try {
@@ -136,13 +138,13 @@ const createUser = async (req, res) => {
     console.log(error);
     res.status(500).send({
       success: false,
-      message: "Error in create student API",
+      message: "Error in create User API",
       error,
     });
   }
 };
 
-// Update user
+// ----------- Update user ---------------
 const updateStudent = async (req, res) => {
   try {
     const userId = req.params.id;
@@ -168,7 +170,7 @@ const updateStudent = async (req, res) => {
       image_URL,
       remember,
     } = req.body;
-    console.log(req);
+
     const data = await db.query(
       `UPDATE users SET username=?, password=?, email=?, fname=?, lname=?, gender=?, address=?, city=?, state=?, pincode=?, country=?, image_URL=?, remember=? WHERE id=${userId}`,
       [
@@ -219,7 +221,7 @@ const updateStudent = async (req, res) => {
   }
 };
 
-// Delete users
+// ----------- Delete users -------------------
 
 const deleteUser = async (req, res) => {
   try {
@@ -246,7 +248,7 @@ const deleteUser = async (req, res) => {
   }
 };
 
-//Login user
+// ---------- Login user ---------------------
 
 const login = async (req, res) => {
   try {

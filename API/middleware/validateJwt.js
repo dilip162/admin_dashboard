@@ -6,8 +6,8 @@ const secretKey = process.env.JWT_SECRET_KEY;
 function verifyToken(req, res, next) {
   let token =
     req.headers.authorization && req.headers.authorization.split(" ")[1];
-  console.log(token);
-  console.log(secretKey);
+  // console.log(token);
+  // console.log(secretKey);
 
   if (!token) {
     return res.status(401).json({ message: "Access denied no token provided" });
@@ -16,7 +16,7 @@ function verifyToken(req, res, next) {
   try {
     // Verify the token
     const decoded = jwt.verify(token, secretKey);
-    console.log(decoded);
+    // console.log(decoded);
     req.user = decoded; // Attach the decoded payload to the request object
     next(); // Proceed to the next middleware or route handler
   } catch (err) {
