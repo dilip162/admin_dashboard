@@ -9,6 +9,7 @@ import InboxIcon from "@mui/icons-material/MoveToInbox";
 import Divider from "@mui/material/Divider";
 import Toolbar from "@mui/material/Toolbar";
 import Box from "@mui/material/Box";
+import { FormControl, MenuItem, Select } from "@mui/material";
 
 const drawerWidth = 240;
 const Sidebar = () => {
@@ -30,18 +31,25 @@ const Sidebar = () => {
           <List>
             {[
               "Inbox",
-              "Category management",
-              "Pages management",
-              "User manage",
+              "Category managment",
+              "Pages managment",
+              "User managment",
             ].map((text, index) => (
-              <ListItem key={text} disablePadding>
-                <ListItemButton>
-                  <ListItemIcon>
-                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                  </ListItemIcon>
-                  <ListItemText primary={text} />
-                </ListItemButton>
-              </ListItem>
+              <FormControl key={index} sx={{ m: 1, minWidth: 120 }}>
+                <Select
+                  value={text}
+                  // onChange={handleChange}
+                  displayEmpty
+                  inputProps={{ "aria-label": "Without label" }}
+                >
+                  <MenuItem value={text}>
+                    <em>{text}</em>
+                  </MenuItem>
+                  <MenuItem value={10}>Ten</MenuItem>
+                  <MenuItem value={20}>Twenty</MenuItem>
+                  <MenuItem value={30}>Thirty</MenuItem>
+                </Select>
+              </FormControl>
             ))}
           </List>
           <Divider />
