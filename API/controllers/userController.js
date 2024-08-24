@@ -7,7 +7,9 @@ const secretKey = process.env.JWT_SECRET_KEY;
 // --------- GET all user list ---------------
 const getUsers = async (req, res) => {
   try {
-    const data = await db.query("SELECT * FROM users");
+    const data = await db.query(
+      "SELECT * FROM users join userdetails on users.id=userdetails.userId"
+    );
 
     if (!data) {
       return res.status(401).send({
@@ -42,7 +44,10 @@ const getUserById = async (req, res) => {
         message: "invalid student id provided",
       });
     }
-    const data = await db.query("SELECT * FROM users WHERE id=?", [userId]);
+    const data = await db.query(
+      "SELECT * FROM users join userdetails on users.id=userdetails.userId WHERE users.id=?",
+      [userId]
+    );
     if (!data) {
       res.status(401).send({
         success: false,
@@ -53,6 +58,8 @@ const getUserById = async (req, res) => {
       success: true,
       userDetails: data[0],
     });
+
+    console.log(data);
   } catch (error) {
     console.log(error);
     res.status(500).send({
@@ -74,13 +81,15 @@ const createUser = async (req, res) => {
       fname,
       lname,
       gender,
+      role,
       address,
-      city,
-      state,
       pincode,
-      country,
       image_URL,
       remember,
+      role_name,
+      city,
+      country,
+      state,
     } = req.body;
 
     if (
@@ -90,13 +99,15 @@ const createUser = async (req, res) => {
       !fname ||
       !lname ||
       !gender ||
+      !role ||
       !address ||
-      !city ||
-      !state ||
       !pincode ||
-      !country ||
       !image_URL ||
-      !remember
+      !remember ||
+      !role_name ||
+      !city ||
+      !country ||
+      !state
     ) {
       return res.status(500).send({
         success: false,
@@ -104,38 +115,50 @@ const createUser = async (req, res) => {
       });
     }
 
-    const data = await db.query(
-      "INSERT INTO users (username, password, email, fname, lname, gender, address, city, state, pincode, country, image_URL, remember) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",
-      [
-        username,
-        password,
-        email,
-        fname,
-        lname,
-        gender,
-        address,
-        city,
-        state,
-        pincode,
-        country,
-        image_URL,
-        remember,
-      ]
+    const uniqueUser = await db.query(
+      "SELECT * FROM users WHERE username=? OR email=?",
+      [username, email]
     );
 
-    if (!data) {
-      res.status(401).send({
-        success: false,
-        message: "Error in INSERT query",
-      });
-    }
+    if (uniqueUser[0].length == 0) {
+      const data = await db.query(
+        "INSERT INTO users (username, password, email, fname, lname, gender, role, address, pincode, image_URL, remember) VALUES (?,?,?,?,?,?,?,?,?,?,?)",
+        [
+          username,
+          password,
+          email,
+          fname,
+          lname,
+          gender,
+          role,
+          address,
+          pincode,
+          image_URL,
+          remember,
+        ]
+      );
 
-    res.status(200).send({
-      success: true,
-      message: "user Data Inserted sucessfully",
-    });
+      const userId = data[0].insertId;
+
+      const insertUserdetails = `INSERT INTO userdetails (userId, role_name, country, state, city) VALUES (?,?,?,?,?)`;
+
+      db.query(insertUserdetails, [userId, role_name, city, country, state]);
+
+      if (!data) {
+        res.status(401).send({
+          success: false,
+          message: "Error in INSERT query",
+        });
+      }
+
+      res.status(200).send({
+        success: true,
+        message: "user Data Inserted sucessfully",
+      });
+    } else {
+      return res.send("User already exist!");
+    }
   } catch (error) {
-    console.log(error);
     res.status(500).send({
       success: false,
       message: "Error in create User API",
