@@ -278,7 +278,8 @@ const login = async (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
 
-    const query = "SELECT * FROM users WHERE username=? AND password=?";
+    const query =
+      "SELECT * FROM users join userdetails on users.id=userdetails.userId WHERE username=? AND password=?";
 
     db.query(query, [username, password]).then(([results, fields]) => {
       if (results.length > 0) {
