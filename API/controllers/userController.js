@@ -185,6 +185,7 @@ const updateStudent = async (req, res) => {
       fname,
       lname,
       gender,
+      role_name,
       address,
       city,
       state,
@@ -195,7 +196,7 @@ const updateStudent = async (req, res) => {
     } = req.body;
 
     const data = await db.query(
-      `UPDATE users SET username=?, password=?, email=?, fname=?, lname=?, gender=?, address=?, city=?, state=?, pincode=?, country=?, image_URL=?, remember=? WHERE id=${userId}`,
+      `UPDATE users SET username=?, password=?, email=?, fname=?, lname=?, gender=?, address=?, pincode=?, image_URL=?, remember=? WHERE id=${userId}`,
       [
         username,
         password,
@@ -204,15 +205,24 @@ const updateStudent = async (req, res) => {
         lname,
         gender,
         address,
-        city,
-        state,
         pincode,
-        country,
         image_URL,
         remember,
         userId,
       ]
     );
+
+    const userDetailsId = data[0].insertId;
+
+    const insertUserdetails = `UPDATE userdetails SET userId=?, role_name=?, country=?, state=?, city=? WHERE id=${userId}`;
+
+    db.query(insertUserdetails, [
+      userDetailsId,
+      role_name,
+      city,
+      country,
+      state,
+    ]);
 
     if (!data) {
       return res.status(500).send({
@@ -278,7 +288,8 @@ const login = async (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
 
-    const query = "SELECT * FROM users join userdetails on users.id=userdetails.userId WHERE username=? AND password=?";
+    const query =
+      "SELECT * FROM users join userdetails on users.id=userdetails.userId WHERE username=? AND password=?";
 
     db.query(query, [username, password]).then(([results, fields]) => {
       if (results.length > 0) {
