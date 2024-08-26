@@ -19,6 +19,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Button from '@mui/material/Button';
 import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
 import EditProfile from '../profile/EditProfile';
+import { Link } from 'react-router-dom';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -61,12 +62,13 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
  const onClick=() =>{
-  
+
  }
 const Header =() =>{
 
     const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const [getUserData, setUserData] = React.useState(JSON.parse(localStorage.getItem('userdata')));
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -74,6 +76,7 @@ const Header =() =>{
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
 
   const handleMobileMenuClose = () => {
     setMobileMoreAnchorEl(null);
@@ -230,8 +233,12 @@ const Header =() =>{
             </IconButton>
           </Button>
           <Menu {...bindMenu(popupState)}>
-            <MenuItem onClick={popupState.close}>View Profile</MenuItem>
-            <MenuItem onClick={<EditProfile/>}>Edit Profile</MenuItem>
+            <MenuItem>
+            <Link to={`/admin/viewuser/${getUserData.id}`}> View Profile</Link>
+            </MenuItem>
+            <MenuItem>
+            <Link to={`/admin/user/${getUserData.id}`}> Edit Profile</Link>
+             </MenuItem>
             <MenuItem onClick={popupState.close}>Logout</MenuItem>
           </Menu>
         </React.Fragment>

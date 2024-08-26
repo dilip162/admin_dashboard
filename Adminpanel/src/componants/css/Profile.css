@@ -11,3 +11,11 @@ h2{
     color: black;
     background-color: #fff;
 }
+
+ table {
+    border: none;
+    font-size: 18px;
+    height: 470px;
+    width: 100%;
+    align-items: center;
+}

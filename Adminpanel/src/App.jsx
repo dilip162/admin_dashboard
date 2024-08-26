@@ -4,6 +4,7 @@ import Login from "./componants/Login";
 import Layout from "./componants/layout/Layout";
 import Dashboard from "./componants/dashboard/Dashboard";
 import EditProfile from "./componants/profile/EditProfile";
+import ViewProfile from "./componants/profile/ViewProfile";
 // import RequireAuth from "./componants/dashboard/RequireAuth";
 
 const App = () => {
@@ -17,9 +18,13 @@ const App = () => {
             <Route
               path="/admin/user/:id"
               element={
-                //<RequireAuth>
                 <EditProfile />
-                //</RequireAuth>
+              }
+            />
+            <Route
+              path="/admin/viewuser/:id"
+              element={
+                <ViewProfile/>
               }
             />
           </Route>
