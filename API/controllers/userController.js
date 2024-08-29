@@ -216,13 +216,7 @@ const updateStudent = async (req, res) => {
 
     const insertUserdetails = `UPDATE userdetails SET userId=?, role_name=?, country=?, state=?, city=? WHERE id=${userId}`;
 
-    db.query(insertUserdetails, [
-      userDetailsId,
-      role_name,
-      city,
-      country,
-      state,
-    ]);
+    db.query(insertUserdetails, [userId, role_name, city, country, state]);
 
     if (!data) {
       return res.status(500).send({
@@ -289,7 +283,7 @@ const login = async (req, res) => {
     const password = req.body.password;
 
     const query =
-      "SELECT * FROM users join userdetails on users.id=userdetails.userId WHERE username=? AND password=?";
+      "SELECT * FROM users join userdetails on users.id=userdetails.userId WHERE users.username=? AND users.password=?";
 
     db.query(query, [username, password]).then(([results, fields]) => {
       if (results.length > 0) {
@@ -315,9 +309,9 @@ const login = async (req, res) => {
           message: "you logged in sucessfully!",
         });
       } else {
-        return res.status(401).send({
+        return res.status(200).send({
           success: "false",
-          message: "you cannot login",
+          message: "username or password is incorrect",
         });
       }
     });

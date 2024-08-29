@@ -60,7 +60,7 @@ const Login = () => {
       const username = formValues.username.value;
       const password = formValues.password.value;
       api
-        .post("/login", {
+        .post("/user/login", {
           username,
           password,
         })
