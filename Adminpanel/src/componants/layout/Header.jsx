@@ -19,6 +19,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Button from "@mui/material/Button";
 import PopupState, { bindTrigger, bindMenu } from "material-ui-popup-state";
 import EditProfile from "../profile/EditProfile";
+import { useNavigate } from "react-router-dom";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -60,13 +61,19 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-const onClick = () => {};
 const Header = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.clear();
+    navigate("/");
+  };
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -238,7 +245,7 @@ const Header = () => {
                       <MenuItem onClick={<EditProfile />}>
                         Edit Profile
                       </MenuItem>
-                      <MenuItem onClick={popupState.close}>Logout</MenuItem>
+                      <MenuItem onClick={handleLogout}>Logout</MenuItem>
                     </Menu>
                   </React.Fragment>
                 )}

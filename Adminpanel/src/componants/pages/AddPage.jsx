@@ -22,8 +22,10 @@ const AddPage = () => {
 
     if (name === "image_URL") {
       const file = e.target.files[0];
+      console.log(file);
       if (file) {
         const imageUrl = URL.createObjectURL(file);
+
         setFormValues({
           ...formValues,
           [name]: imageUrl,

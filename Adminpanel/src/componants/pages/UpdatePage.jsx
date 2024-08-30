@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { TextField, Button, Container, Typography, Grid } from "@mui/material";
+import { TextField, Button, Typography, Grid } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
 import api from "../../utils/intercepter";
 
@@ -39,7 +39,9 @@ const UpdatePage = () => {
     if (name === "image_URL") {
       const file = e.target.files[0];
       if (file) {
-        const imageUrl = URL.createObjectURL(file);
+        const imageUrl =
+          URL.createObjectURL(file) ||
+          "https://cdn-icons-png.flaticon.com/512/5556/5556499.png";
         setFormValues({
           ...formValues,
           [name]: imageUrl,
@@ -79,7 +81,7 @@ const UpdatePage = () => {
   };
 
   return (
-    <Container maxWidth="md" style={{ marginTop: "100px" }}>
+    <>
       <Typography variant="h4" gutterBottom>
         Update Page
       </Typography>
@@ -165,17 +167,14 @@ const UpdatePage = () => {
               required
             />
           </Grid>
+
           <Grid item xs={12}>
             <label htmlFor="" style={{ margin: "0 10px", color: "gray" }}>
               Image URL
             </label>
-            <input
-              type="file"
-              name="image_URL"
-              onChange={handleInputChange}
-              required
-            />
+            <input type="file" name="image_URL" onChange={handleInputChange} />
           </Grid>
+
           <Grid item xs={12}>
             <Button type="submit" variant="contained" color="primary" fullWidth>
               Update
@@ -183,7 +182,7 @@ const UpdatePage = () => {
           </Grid>
         </Grid>
       </form>
-    </Container>
+    </>
   );
 };
 
