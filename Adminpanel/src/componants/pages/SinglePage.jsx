@@ -53,18 +53,22 @@ const ViewPage = () => {
   return (
     <Container maxWidth="md" style={{ marginTop: "100px" }}>
       <Paper
-        elevation={4}
-        style={{ padding: "30px", backgroundColor: "#f5f5f5" }}
+        elevation={0} // Removed background color by setting elevation to 0
+        style={{ padding: "30px", backgroundColor: "transparent" }} // Set background color to transparent
       >
         <Typography
           variant="h4"
           align="center"
           gutterBottom
-          style={{ color: "#3f51b5" }}
+          style={{ color: "#3f51b5", marginBottom: "40px" }}
         >
           Page Details
         </Typography>
-        <Grid container spacing={3}>
+        <Grid
+          container
+          spacing={3}
+          style={{ border: "1px solid black", borderRadius: "6px" }}
+        >
           <Grid item xs={12}>
             <Box display="flex" alignItems="center">
               <Typography

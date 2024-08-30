@@ -8,7 +8,9 @@ const Layout = () => {
     <>
       <Header />
       <Container maxWidth="lg">
-        <Outlet />
+        <div className="wrapper">
+          <Outlet />
+        </div>
       </Container>
       <Sidebar />
     </>

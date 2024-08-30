@@ -3,10 +3,8 @@ import {
   Table,
   TableBody,
   TableCell,
-  TableContainer,
   TableHead,
   TableRow,
-  Paper,
   Checkbox,
   IconButton,
   TablePagination,
@@ -28,10 +26,9 @@ const CustomTable = () => {
   const [selected, setSelected] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [data, setData] = useState([]);
 
   const navigate = useNavigate();
-
-  const [data, setData] = useState([]);
 
   const fetchData = async () => {
     try {
@@ -102,11 +99,19 @@ const CustomTable = () => {
 
   // ------------ Delete Page ----------
 
-  const handleDelete = async (id) => {
+  const handleDelete = (id) => {
     try {
-      console.log(`Delete item with id: ${id}`);
-
-      await api.delete(`/page/deletepage/${id}`);
+      if (window.confirm("Are you sure?")) {
+        api.delete(`/page/deletepage/${id}`).then((data) => {
+          console.log(data.data.success);
+          if (data.data.success) {
+            api.get("/page/pages").then((response) => {
+              setData(response.data.data);
+              console.log(response.data);
+            });
+          }
+        });
+      }
     } catch (error) {
       console.log(error);
     }
@@ -122,100 +127,114 @@ const CustomTable = () => {
   };
 
   return (
-    <Paper>
-      <TableContainer>
-        <Table sx={{ width: "100%", marginTop: "100px", marginLeft: "100px" }}>
-          <TableHead>
-            <TableRow style={{ backgroundColor: "black", color: "white" }}>
-              <TableCell padding="checkbox" style={{ color: "white" }}>
-                <Checkbox
-                  indeterminate={
-                    selected.length > 0 && selected.length < data.length
-                  }
-                  checked={data.length > 0 && selected.length === data.length}
-                  onChange={handleSelectAllClick}
-                  style={{ color: "white" }}
-                />
-              </TableCell>
-              <TableCell style={{ color: "white" }}>Id</TableCell>
-              <TableCell style={{ color: "white" }}>Name</TableCell>
-              <TableCell style={{ color: "white" }}>Title</TableCell>
-              <TableCell style={{ color: "white" }}>
-                Short Description
-              </TableCell>
-              <TableCell style={{ color: "white" }}>Description</TableCell>
-              <TableCell style={{ color: "white" }}>Category</TableCell>
-              <TableCell style={{ color: "white" }}>Cat</TableCell>
-              <TableCell style={{ color: "white" }}>Image URL</TableCell>
-              <TableCell style={{ color: "white" }}>Actions</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {data
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row) => {
-                const isItemSelected = isSelected(row.id);
-                const labelId = `enhanced-table-checkbox-${row.id}`;
+    <>
+      <Table style={{ borderRadius: "6px" }}>
+        <TableHead>
+          <TableRow style={{ background: "#D0D0D0" }}>
+            <TableCell padding="checkbox">
+              <Checkbox
+                indeterminate={
+                  selected.length > 0 && selected.length < data.length
+                }
+                checked={data.length > 0 && selected.length === data.length}
+                onChange={handleSelectAllClick}
+              />
+            </TableCell>
+            <TableCell style={{ fontWeight: "600", fontSize: "16px" }}>
+              Id
+            </TableCell>
+            <TableCell style={{ fontWeight: "600", fontSize: "16px" }}>
+              Name
+            </TableCell>
+            <TableCell style={{ fontWeight: "600", fontSize: "16px" }}>
+              Title
+            </TableCell>
+            <TableCell style={{ fontWeight: "600", fontSize: "16px" }}>
+              Short Description
+            </TableCell>
+            <TableCell style={{ fontWeight: "600", fontSize: "16px" }}>
+              Description
+            </TableCell>
+            <TableCell style={{ fontWeight: "600", fontSize: "16px" }}>
+              Category
+            </TableCell>
+            <TableCell style={{ fontWeight: "600", fontSize: "16px" }}>
+              Cat
+            </TableCell>
+            <TableCell style={{ fontWeight: "600", fontSize: "16px" }}>
+              Image URL
+            </TableCell>
+            <TableCell style={{ fontWeight: "600", fontSize: "16px" }}>
+              Actions
+            </TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {data
+            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+            .map((row) => {
+              const isItemSelected = isSelected(row.id);
+              const labelId = `enhanced-table-checkbox-${row.id}`;
 
-                return (
-                  <TableRow
-                    hover
-                    role="checkbox"
-                    aria-checked={isItemSelected}
-                    tabIndex={-1}
-                    key={row.id}
-                    selected={isItemSelected}
-                  >
-                    <TableCell padding="checkbox">
-                      <Checkbox
-                        checked={isItemSelected}
-                        inputProps={{ "aria-labelledby": labelId }}
-                        onClick={(event) => handleClick(event, row.id)}
-                      />
-                    </TableCell>
-                    <TableCell>{row.id}</TableCell>
-                    <TableCell>{row.name}</TableCell>
-                    <TableCell>{row.title}</TableCell>
-                    <TableCell>
-                      {truncateString(row.short_description, 40)}
-                    </TableCell>
-                    <TableCell>{truncateString(row.description, 40)}</TableCell>
-                    <TableCell>{row.category}</TableCell>
-                    <TableCell>{row.cat}</TableCell>
-                    <TableCell>{row.image_URL}</TableCell>
-                    <TableCell>
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "space-around",
-                        }}
+              return (
+                <TableRow
+                  hover
+                  role="checkbox"
+                  aria-checked={isItemSelected}
+                  tabIndex={-1}
+                  key={row.id}
+                  selected={isItemSelected}
+                >
+                  <TableCell padding="checkbox">
+                    <Checkbox
+                      checked={isItemSelected}
+                      inputProps={{ "aria-labelledby": labelId }}
+                      onClick={(event) => handleClick(event, row.id)}
+                    />
+                  </TableCell>
+                  <TableCell>{row.id}</TableCell>
+                  <TableCell>{row.name}</TableCell>
+                  <TableCell>{row.title}</TableCell>
+                  <TableCell>
+                    {truncateString(row.short_description, 40)}
+                  </TableCell>
+                  <TableCell>{truncateString(row.description, 40)}</TableCell>
+                  <TableCell>{truncateString(row.category, 40)}</TableCell>
+                  <TableCell>{row.cat}</TableCell>
+                  <TableCell>{row.image_URL}</TableCell>
+                  <TableCell>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-around",
+                      }}
+                    >
+                      <IconButton
+                        color="primary"
+                        onClick={() => handleView(row.id)}
                       >
-                        <IconButton
-                          color="primary"
-                          onClick={() => handleView(row.id)}
-                        >
-                          <VisibilityIcon />
-                        </IconButton>
-                        <IconButton
-                          color="secondary"
-                          onClick={() => handleEdit(row.id)}
-                        >
-                          <EditIcon />
-                        </IconButton>
-                        <IconButton
-                          color="error"
-                          onClick={() => handleDelete(row.id)}
-                        >
-                          <DeleteIcon />
-                        </IconButton>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
-          </TableBody>
-        </Table>
-      </TableContainer>
+                        <VisibilityIcon />
+                      </IconButton>
+                      <IconButton
+                        color="secondary"
+                        onClick={() => handleEdit(row.id)}
+                      >
+                        <EditIcon />
+                      </IconButton>
+                      <IconButton
+                        color="error"
+                        onClick={() => handleDelete(row.id)}
+                      >
+                        <DeleteIcon onClick={handleDelete} />
+                      </IconButton>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              );
+            })}
+        </TableBody>
+      </Table>
+
       <TablePagination
         rowsPerPageOptions={[5, 10, 25]}
         component="div"
@@ -225,7 +244,7 @@ const CustomTable = () => {
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
-    </Paper>
+    </>
   );
 };
 
