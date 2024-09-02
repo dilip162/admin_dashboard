@@ -11,6 +11,11 @@ const EditProfile = () => {
     const [getCountryData, setCountryData] = useState(null);
     const [getStateData, setStateData] = useState(null);
     const [getCityData, setCityData] = useState(null);
+    const [getRegionValue, setRegionValue] = useState({
+        country: getExistingData.country,
+        state: getExistingData.state,
+        city: getExistingData.city
+    });
     const [getUserData, setUserData] = useState({
         username: {
             value: getExistingData.username,
@@ -105,6 +110,15 @@ const EditProfile = () => {
         }
     }
 
+    const regionClick = (e,item,type)=>{
+        setRegionValue((prevState) => {
+            return ({
+                ...prevState,
+                [type]: item.name
+            });
+        });
+    }
+
     const handlesubmit = (e) => {
         e.preventDefault();
         const [username,
@@ -186,7 +200,7 @@ const EditProfile = () => {
             // ---------------
         } else {
 
-
+console.log(getRegionValue);
             let payload = {};
             for (let [key, value] of Object.entries(getUserData)) {
                 payload[key] = value.value
@@ -196,7 +210,11 @@ const EditProfile = () => {
             payload.isDeleted = '0';
             payload.remember = 'true';
             payload.created_date = '';
-            payload.updated_date = ''
+            payload.updated_date = '';
+            payload.country = getRegionValue.country;
+            payload.state = getRegionValue.state;
+            payload.city = getRegionValue.city
+            
             api.put("/update/" + getExistingData.id, payload
             )
                 .then((response) => {
@@ -265,7 +283,7 @@ const EditProfile = () => {
 
     return (
         <>
-
+     <div className="mainpage">
             <h2>Edit Profile</h2>
             <form id='myform' onSubmit={handlesubmit}>
                 <Stack spacing={2} direction="row" sx={{ marginBottom: 4 }}>
@@ -277,6 +295,7 @@ const EditProfile = () => {
                             label="User Name"
                             name="username"
                             onChange={handleEdit}
+                            inputProps={{ readOnly: true }}
                             value={getUserData.username.value}
                             error={getUserData.username.error}
                             helperText={
@@ -311,6 +330,7 @@ const EditProfile = () => {
                             label="Email"
                             name="email"
                             onChange={handleEdit}
+                            inputProps={{ readOnly: true }}
                             value={getUserData.email.value}
                             error={getUserData.email.error}
                             helperText={
@@ -414,7 +434,7 @@ const EditProfile = () => {
                                 error={getUserData.country.error}
                             >
                                 {getCountryData && getCountryData.map((item) => {
-                                    return (<MenuItem value={item.id}>{item.name}</MenuItem>)
+                                    return (<MenuItem onClick={(e)=>regionClick(e,item,'country')} value={item.id}>{item.name}</MenuItem>)
                                 })}
                             </Select>
                             <FormHelperText className="required">{getUserData.country.error && getUserData.country.errorMessage}</FormHelperText>
@@ -434,7 +454,7 @@ const EditProfile = () => {
                                 error={getUserData.state.error}
                             >
                                 {getStateData && getStateData.map((item) => {
-                                    return (<MenuItem value={item.id}>{item.name}</MenuItem>)
+                                    return (<MenuItem onClick={(e)=>regionClick(e,item,'state')} value={item.id}>{item.name}</MenuItem>)
                                 })}
                             </Select>
                             <FormHelperText className="required">{getUserData.state.error && getUserData.state.errorMessage}</FormHelperText>
@@ -458,7 +478,7 @@ const EditProfile = () => {
                                 error={getUserData.city.error}
                             >
                                 {getCityData && getCityData.map((item) => {
-                                    return (<MenuItem value={item.id}>{item.name}</MenuItem>)
+                                    return (<MenuItem onClick={(e)=>regionClick(e,item,'city')} value={item.id}>{item.name}</MenuItem>)
                                 })}
 
                             </Select>
@@ -549,6 +569,7 @@ const EditProfile = () => {
                     </Button>
                 </Stack>
             </form>
+            </div>
 
         </>
     )

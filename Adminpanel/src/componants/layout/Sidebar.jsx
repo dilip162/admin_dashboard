@@ -1,74 +1,32 @@
-import MailIcon from "@mui/icons-material/Mail";
-import Drawer from "@mui/material/Drawer";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import Divider from "@mui/material/Divider";
-import Toolbar from "@mui/material/Toolbar";
-import Box from "@mui/material/Box";
-import { FormControl, MenuItem, Select } from "@mui/material";
-
-const drawerWidth = 240;
-const Sidebar = () => {
+import "../css/Dashboard.css";
+import {ArrowRight, BarChart, BoxArrowDownRight, CardList, ChevronBarDown, ChevronDown, Circle, DashCircle, Envelope, FileEarmark, Gem, Grid, JournalText, LayoutTextWindowReverse, MenuButtonWide, Person, QuestionCircle} from 'react-bootstrap-icons';
+import { Link } from "react-router-dom";
+import { IoPerson } from "react-icons/io5";
+import { CiGrid41 } from "react-icons/ci";
+import { IoPersonAdd } from "react-icons/io5";
+import { RiPagesFill } from "react-icons/ri";
+import { MdAdd } from "react-icons/md";
+import { MdDashboard } from "react-icons/md";
+import { Sidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
+const SidebarMenu = () => {
+  
   return (
-    <>
-      <Drawer
-        variant="permanent"
-        sx={{
-          width: drawerWidth,
-          flexShrink: 0,
-          [`& .MuiDrawer-paper`]: {
-            width: drawerWidth,
-            boxSizing: "border-box",
-          },
-        }}
-      >
-        <Toolbar />
-        <Box sx={{ overflow: "auto" }}>
-          <List>
-            {[
-              "Inbox",
-              "Category managment",
-              "Pages managment",
-              "User managment",
-            ].map((text, index) => (
-              <FormControl key={index} sx={{ m: 1, minWidth: 120 }}>
-                <Select
-                  value={text}
-                  // onChange={handleChange}
-                  displayEmpty
-                  inputProps={{ "aria-label": "Without label" }}
-                >
-                  <MenuItem value={text}>
-                    <em>{text}</em>
-                  </MenuItem>
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
-                </Select>
-              </FormControl>
-            ))}
-          </List>
-          <Divider />
-          <List>
-            {["All mail", "Trash", "Spam"].map((text, index) => (
-              <ListItem key={text} disablePadding>
-                <ListItemButton>
-                  <ListItemIcon>
-                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                  </ListItemIcon>
-                  <ListItemText primary={text} />
-                </ListItemButton>
-              </ListItem>
-            ))}
-          </List>
-        </Box>
-      </Drawer>
+    <> 
+<Sidebar>
+  <Menu className="sidemenu">
+  <MenuItem className="nav-link" icon={<MdDashboard />} component={<Link to="/admin/dashboard" />}> Dashboard </MenuItem>
+      <SubMenu label="User Managment" icon={<IoPerson />} className="nav-link">
+      <MenuItem component={<Link to="/admin/users" />} icon={<IoPerson />}>Users</MenuItem>
+      <MenuItem component={<Link to="/admin/addnewuser" />} icon={<IoPersonAdd />} > Add New User </MenuItem>
+    </SubMenu>
+    <SubMenu label="Page Managment" icon={<RiPagesFill />} className="nav-link">
+      <MenuItem component={<Link to="/admin/pages" />} icon={<RiPagesFill />}>Pages</MenuItem>
+      <MenuItem component={<Link to="/admin/addnewpage" />} icon={<MdAdd />}> Add New Page </MenuItem>
+    </SubMenu>
+  </Menu>
+</Sidebar>
     </>
   );
 };
 
-export default Sidebar;
+export default SidebarMenu;

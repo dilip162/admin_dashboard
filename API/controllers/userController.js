@@ -168,7 +168,7 @@ const createUser = async (req, res) => {
 };
 
 // ----------- Update user ---------------
-const updateStudent = async (req, res) => {
+const updateUser = async (req, res) => {
   try {
     const userId = req.params.id;
 
@@ -212,12 +212,12 @@ const updateStudent = async (req, res) => {
       ]
     );
 
-    const userDetailsId = data[0].insertId;
+
 
     const insertUserdetails = `UPDATE userdetails SET userId=?, role_name=?, country=?, state=?, city=? WHERE id=${userId}`;
 
     db.query(insertUserdetails, [
-      userDetailsId,
+      userId,
       role_name,
       city,
       country,
@@ -289,19 +289,20 @@ const login = async (req, res) => {
     const password = req.body.password;
 
     const query =
-      "SELECT * FROM users join userdetails on users.id=userdetails.userId WHERE username=? AND password=?";
+      "SELECT * FROM users join userdetails on users.id=userdetails.userId WHERE users.username=? AND users.password=?";
 
     db.query(query, [username, password]).then(([results, fields]) => {
+      console.log(username,password, results)
       if (results.length > 0) {
         const payload = {
           id: results[0].id,
           username: results[0].username,
           email: results[0].email,
-        };
+        }; 
 
         // Options for the token
         const options = {
-          expiresIn: "1h", // Token will expire in 1 hour
+          expiresIn: "3h", // Token will expire in 1 hour
         };
 
         // Create the token
@@ -315,14 +316,13 @@ const login = async (req, res) => {
           message: "you logged in sucessfully!",
         });
       } else {
-        return res.status(401).send({
-          success: "false",
-          message: "you cannot login",
+        return res.status(200).send({
+          success: false,
+          message: "username or password incorrect",
         });
       }
     });
   } catch (error) {
-    console.log(error);
     res.status(500).send({
       success: true,
       message: "Invalid username or password",
@@ -435,7 +435,7 @@ module.exports = {
   getUsers,
   getUserById,
   createUser,
-  updateStudent,
+  updateUser,
   deleteUser,
   login,
   getCountries,

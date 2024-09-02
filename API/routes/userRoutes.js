@@ -3,7 +3,7 @@ const {
   getUsers,
   getUserById,
   createUser,
-  updateStudent,
+  updateUser,
   deleteUser,
   login,
   getCountries,
@@ -27,7 +27,7 @@ router.get("/get/:id", verifyToken, getUserById);
 router.post("/create", verifyToken, createUser);
 
 // update user || PUT
-router.put("/update/:id", verifyToken, updateStudent); // Have some bug to resolve
+router.put("/update/:id", verifyToken, updateUser); // Have some bug to resolve
 
 // Delete user || DELETE
 router.delete("/delete/:id", verifyToken, deleteUser);

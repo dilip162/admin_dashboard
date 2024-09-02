@@ -9,7 +9,7 @@ import InputBase from "@mui/material/InputBase";
 import Badge from "@mui/material/Badge";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
-import MenuIcon from "@mui/icons-material/Menu";
+import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
 import SearchIcon from "@mui/icons-material/Search";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MailIcon from "@mui/icons-material/Mail";
@@ -18,7 +18,7 @@ import MoreIcon from "@mui/icons-material/MoreVert";
 import CssBaseline from "@mui/material/CssBaseline";
 import Button from "@mui/material/Button";
 import PopupState, { bindTrigger, bindMenu } from "material-ui-popup-state";
-import EditProfile from "../profile/EditProfile";
+import { Link } from "react-router-dom";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -180,7 +180,7 @@ const Header =() =>{
               aria-label="open drawer"
               sx={{ mr: 2 }}
             >
-              <MenuIcon />
+              <SupervisorAccountIcon/>
             </IconButton>
             <Typography
               variant="h6"
@@ -188,7 +188,7 @@ const Header =() =>{
               component="div"
               sx={{ display: { xs: "none", sm: "block" } }}
             >
-              Dashboard
+              Admin
             </Typography>
             <Search>
               <SearchIconWrapper>
@@ -237,8 +237,12 @@ const Header =() =>{
             </IconButton>
           </Button>
           <Menu {...bindMenu(popupState)}>
-            <MenuItem onClick={popupState.close}>View Profile</MenuItem>
-            <MenuItem onClick={<EditProfile/>}>Edit Profile</MenuItem>
+            <MenuItem>
+            <Link to={`/admin/viewuser/${getUserData.id}`}> View Profile</Link>
+            </MenuItem>
+            <MenuItem>
+            <Link to={`/admin/user/${getUserData.id}`}> Edit Profile</Link>
+            </MenuItem>
             <MenuItem onClick={popupState.close}>Logout</MenuItem>
           </Menu>
         </React.Fragment>

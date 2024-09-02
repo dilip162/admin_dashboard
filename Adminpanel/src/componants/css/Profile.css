@@ -1,9 +1,7 @@
 form{
-    width: 1090px;
+    width: 900px;
 }
-h2{
-    padding-top: 50px;
-}
+
 .required{
     color: #d32f2f !important;
 }

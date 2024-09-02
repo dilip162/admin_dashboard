@@ -10,6 +10,7 @@ const ViewProfile = () => {
     useEffect(() => {
         let mounted = true;
         getUser().then(function (response) {
+            console.log(response);
             // handle success
             if (mounted) {
                 setUserData(response.data.userDetails[0]);
@@ -33,16 +34,18 @@ const ViewProfile = () => {
 
     return (
         <>
+        <div className="viewpage">
             <h2>View Profile</h2>
             <Box
                 height={500}
-                width={1000}
+                width={900}
                 my={4}
                 display="flex"
                 alignItems="center"
                 gap={4}
                 p={2}
                 sx={{ border: '1px solid grey' }}
+                
             >
                 <table>
                     <tbody>
@@ -149,6 +152,7 @@ const ViewProfile = () => {
                     </tbody>
                 </table>
             </Box>
+            </div>
         </>
     )
 }
