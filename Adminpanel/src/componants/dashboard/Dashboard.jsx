@@ -1,3 +1,4 @@
+import "../css/Dashboard.css";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import { Typography } from "@mui/material";
@@ -5,8 +6,8 @@ import { Typography } from "@mui/material";
 const Dashboard = () => {
   return (
     <>
-      <Box sx={{ display: "flex" }}>
-        <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+      
+        <Box component="main" className="maindash" >
           <Toolbar />
           <Typography paragraph>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
@@ -39,7 +40,6 @@ const Dashboard = () => {
             ultrices sagittis orci a.
           </Typography>
         </Box>
-      </Box>
     </>
   );
 };

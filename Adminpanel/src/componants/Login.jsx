@@ -66,7 +66,7 @@ const Login = () => {
         })
         .then((response) => {
           console.log(response);
-          if (response.data) {
+          if (response.data.success) {
             localStorage.setItem("token", response.data.token);
             localStorage.setItem(
               "userdata",

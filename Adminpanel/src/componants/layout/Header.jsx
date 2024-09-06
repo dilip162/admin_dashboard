@@ -9,7 +9,7 @@ import InputBase from "@mui/material/InputBase";
 import Badge from "@mui/material/Badge";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
-import MenuIcon from "@mui/icons-material/Menu";
+import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
 import SearchIcon from "@mui/icons-material/Search";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MailIcon from "@mui/icons-material/Mail";
@@ -18,8 +18,7 @@ import MoreIcon from "@mui/icons-material/MoreVert";
 import CssBaseline from "@mui/material/CssBaseline";
 import Button from "@mui/material/Button";
 import PopupState, { bindTrigger, bindMenu } from "material-ui-popup-state";
-import EditProfile from "../profile/EditProfile";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -61,9 +60,14 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-const Header = () => {
-  const [anchorEl, setAnchorEl] = React.useState(null);
+ const onClick=() =>{
+  
+ }
+const Header =() =>{
+
+    const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const [getUserData, setUserData] = React.useState(JSON.parse(localStorage.getItem('userdata')));
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -78,6 +82,7 @@ const Header = () => {
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
 
   const handleMobileMenuClose = () => {
     setMobileMoreAnchorEl(null);
@@ -182,7 +187,7 @@ const Header = () => {
               aria-label="open drawer"
               sx={{ mr: 2 }}
             >
-              <MenuIcon />
+              <SupervisorAccountIcon/>
             </IconButton>
             <Typography
               variant="h6"
@@ -190,7 +195,7 @@ const Header = () => {
               component="div"
               sx={{ display: { xs: "none", sm: "block" } }}
             >
-              Dashboard
+              Admin
             </Typography>
             <Search>
               <SearchIconWrapper>
@@ -222,49 +227,53 @@ const Header = () => {
                 </Badge>
               </IconButton>
 
-              <PopupState variant="popover" popupId="demo-popup-menu">
-                {(popupState) => (
-                  <React.Fragment>
-                    <Button variant="contained" {...bindTrigger(popupState)}>
-                      <IconButton
-                        size="large"
-                        edge="end"
-                        aria-label="account of current user"
-                        aria-controls={menuId}
-                        aria-haspopup="true"
-                        onClick={handleProfileMenuOpen}
-                        color="inherit"
-                      >
-                        <AccountCircle />
-                      </IconButton>
-                    </Button>
-                    <Menu {...bindMenu(popupState)}>
-                      <MenuItem onClick={popupState.close}>
-                        View Profile
-                      </MenuItem>
-                      <MenuItem onClick={<EditProfile />}>
-                        Edit Profile
-                      </MenuItem>
-                      <MenuItem onClick={handleLogout}>Logout</MenuItem>
-                    </Menu>
-                  </React.Fragment>
-                )}
-              </PopupState>
-            </Box>
-            <Box sx={{ display: { xs: "flex", md: "none" } }}>
-              <IconButton
-                size="large"
-                aria-label="show more"
-                aria-controls={mobileMenuId}
-                aria-haspopup="true"
-                onClick={handleMobileMenuOpen}
-                color="inherit"
-              >
-                <MoreIcon />
-              </IconButton>
-            </Box>
-          </Toolbar>
-        </AppBar>
+            <PopupState variant="popover" popupId="demo-popup-menu">
+      {(popupState) => (
+        <React.Fragment>
+          <Button variant="contained" {...bindTrigger(popupState)}>
+          <IconButton
+              size="large"
+              edge="end"
+              aria-label="account of current user"
+              aria-controls={menuId}
+              aria-haspopup="true"
+              onClick={handleProfileMenuOpen}
+              color="inherit"
+            >
+              <AccountCircle />
+            </IconButton>
+          </Button>
+          <Menu {...bindMenu(popupState)}>
+            <MenuItem>
+            <Link to={`/admin/viewuser/${getUserData.id}`}> View Profile</Link>
+            </MenuItem>
+            <MenuItem>
+            <Link to={`/admin/edituser/${getUserData.id}`}> Edit Profile</Link>
+            </MenuItem>
+            <MenuItem onClick={popupState.close}>Logout</MenuItem>
+          </Menu>
+        </React.Fragment>
+      )}
+    </PopupState>
+            
+
+
+          </Box>
+          <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+            <IconButton
+              size="large"
+              aria-label="show more"
+              aria-controls={mobileMenuId}
+              aria-haspopup="true"
+              onClick={handleMobileMenuOpen}
+              color="inherit"
+            >
+              <MoreIcon />
+            </IconButton>
+          </Box>
+        </Toolbar>
+
+      </AppBar>
       </Box>
     </>
   );

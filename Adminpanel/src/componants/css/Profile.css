@@ -1,13 +1,19 @@
 form{
-    width: 1090px;
+    width: 900px;
 }
-h2{
-    padding-top: 50px;
-}
+
 .required{
     color: #d32f2f !important;
 }
 .image{
     color: black;
     background-color: #fff;
+}
+
+ table {
+    border: none;
+    font-size: 18px;
+    height: 470px;
+    width: 100%;
+    align-items: center;
 }

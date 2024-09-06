@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import Sidebar from "./Sidebar";
+import SidebarMenu from "./Sidebar";
 import Header from "./Header";
 import { Container } from "@mui/material";
 
@@ -9,10 +9,10 @@ const Layout = () => {
       <Header />
       <Container maxWidth="lg">
         <div className="wrapper">
-          <Outlet />
+        <Outlet />
         </div>
       </Container>
-      <Sidebar />
+      <SidebarMenu />
     </>
   );
 };

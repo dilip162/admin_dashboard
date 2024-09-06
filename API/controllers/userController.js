@@ -90,6 +90,9 @@ const createUser = async (req, res) => {
       city,
       country,
       state,
+      country_id,
+      state_id,
+      city_id
     } = req.body;
 
     if (
@@ -140,9 +143,9 @@ const createUser = async (req, res) => {
 
       const userId = data[0].insertId;
 
-      const insertUserdetails = `INSERT INTO userdetails (userId, role_name, country, state, city) VALUES (?,?,?,?,?)`;
+      const insertUserdetails = `INSERT INTO userdetails (userId, role_name, country, state, city,country_id,state_id,city_id) VALUES (?,?,?,?,?,?,?,?)`;
 
-      db.query(insertUserdetails, [userId, role_name, city, country, state]);
+      db.query(insertUserdetails, [userId, role_name, country, state,city,country_id,state_id,city_id]);
 
       if (!data) {
         res.status(401).send({
@@ -168,7 +171,7 @@ const createUser = async (req, res) => {
 };
 
 // ----------- Update user ---------------
-const updateStudent = async (req, res) => {
+const updateUser = async (req, res) => {
   try {
     const userId = req.params.id;
 
@@ -212,11 +215,17 @@ const updateStudent = async (req, res) => {
       ]
     );
 
-    const userDetailsId = data[0].insertId;
+
 
     const insertUserdetails = `UPDATE userdetails SET userId=?, role_name=?, country=?, state=?, city=? WHERE id=${userId}`;
 
-    db.query(insertUserdetails, [userId, role_name, city, country, state]);
+    db.query(insertUserdetails, [
+      userId,
+      role_name,
+      city,
+      country,
+      state,
+    ]);
 
     if (!data) {
       return res.status(500).send({
@@ -286,16 +295,17 @@ const login = async (req, res) => {
       "SELECT * FROM users join userdetails on users.id=userdetails.userId WHERE users.username=? AND users.password=?";
 
     db.query(query, [username, password]).then(([results, fields]) => {
+      console.log(username,password, results)
       if (results.length > 0) {
         const payload = {
           id: results[0].id,
           username: results[0].username,
           email: results[0].email,
-        };
+        }; 
 
         // Options for the token
         const options = {
-          expiresIn: "1h", // Token will expire in 1 hour
+          expiresIn: "3h", // Token will expire in 1 hour
         };
 
         // Create the token
@@ -316,7 +326,6 @@ const login = async (req, res) => {
       }
     });
   } catch (error) {
-    console.log(error);
     res.status(500).send({
       success: true,
       message: "Invalid username or password",
@@ -429,7 +438,7 @@ module.exports = {
   getUsers,
   getUserById,
   createUser,
-  updateStudent,
+  updateUser,
   deleteUser,
   login,
   getCountries,
