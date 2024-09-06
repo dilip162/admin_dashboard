@@ -7,7 +7,6 @@ import EditProfile from "./componants/profile/EditProfile";
 import ViewProfile from "./componants/profile/ViewProfile";
 import Users from "./UserManagment/Users";
 import AddNewUser from "./UserManagment/AddNewUser";
-import EditUser from "./UserManagment/EditUser";
 import Pages from "./Page Managment/Pages";
 import AddNewPage from "./Page Managment/AddNewPage";
 import EditPage from "./Page Managment/EditPage";

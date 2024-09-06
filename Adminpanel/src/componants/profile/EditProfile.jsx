@@ -200,7 +200,6 @@ const EditProfile = () => {
             // ---------------
         } else {
 
-console.log(getRegionValue);
             let payload = {};
             for (let [key, value] of Object.entries(getUserData)) {
                 payload[key] = value.value

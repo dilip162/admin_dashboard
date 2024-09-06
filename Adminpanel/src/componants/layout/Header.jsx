@@ -241,7 +241,7 @@ const Header =() =>{
             <Link to={`/admin/viewuser/${getUserData.id}`}> View Profile</Link>
             </MenuItem>
             <MenuItem>
-            <Link to={`/admin/user/${getUserData.id}`}> Edit Profile</Link>
+            <Link to={`/admin/edituser/${getUserData.id}`}> Edit Profile</Link>
             </MenuItem>
             <MenuItem onClick={popupState.close}>Logout</MenuItem>
           </Menu>

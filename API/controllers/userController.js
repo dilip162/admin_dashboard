@@ -90,6 +90,9 @@ const createUser = async (req, res) => {
       city,
       country,
       state,
+      country_id,
+      state_id,
+      city_id
     } = req.body;
 
     if (
@@ -140,9 +143,9 @@ const createUser = async (req, res) => {
 
       const userId = data[0].insertId;
 
-      const insertUserdetails = `INSERT INTO userdetails (userId, role_name, country, state, city) VALUES (?,?,?,?,?)`;
+      const insertUserdetails = `INSERT INTO userdetails (userId, role_name, country, state, city,country_id,state_id,city_id) VALUES (?,?,?,?,?,?,?,?)`;
 
-      db.query(insertUserdetails, [userId, role_name, city, country, state]);
+      db.query(insertUserdetails, [userId, role_name, country, state,city,country_id,state_id,city_id]);
 
       if (!data) {
         res.status(401).send({
