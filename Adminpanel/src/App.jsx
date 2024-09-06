@@ -13,6 +13,14 @@ import EditPage from "./Page Managment/EditPage";
 
 
 // import RequireAuth from "./componants/dashboard/RequireAuth";
+import UpdatePage from "./componants/pages/UpdatePage";
+import AddPage from "./componants/pages/AddPage";
+import ViewPage from "./componants/pages/ViewPage";
+import SinglePage from "./componants/pages/SinglePage";
+import ManageCategory from "./componants/category/ManageCategory";
+import ViewCategory from "./componants/category/ViewCategory";
+import UpdateCategory from "./componants/category/UpdateCategory";
+import SingleCategory from "./componants/category/SingleCategory";
 
 const App = () => {
   return (
@@ -59,6 +67,45 @@ const App = () => {
           element={
           <EditPage />
           } />
+          <Route
+              path="/admin/pages/add"
+              element={
+                //<RequireAuth>
+                <AddPage />
+                //</RequireAuth>
+              }
+            />
+
+            <Route
+              path={`/admin/pages/update/:id`}
+              element={
+                //<RequireAuth>
+                <UpdatePage />
+              }
+            />
+
+            <Route
+              path={`/admin/pages/view/:id`}
+              element={
+                //<RequireAuth>
+                <SinglePage />
+              }
+            />
+
+            <Route path="/admin/pages/view" element={<ViewPage />} />
+
+            {/* -------------  Category Routes ------------- */}
+
+            <Route path="/admin/category/create" element={<ManageCategory />} />
+            <Route path="/admin/category/view" element={<ViewCategory />} />
+            <Route
+              path="/admin/category/update/:id"
+              element={<UpdateCategory />}
+            />
+            <Route
+              path="/admin/category/view/:id"
+              element={<SingleCategory />}
+            />
           </Route>
         </Routes>
       </BrowserRouter>

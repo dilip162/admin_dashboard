@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:3000/api/v1/user/",
+  baseURL: "http://localhost:3000/api/v1",
   timeout: 1000,
   headers: {
     "Content-Type": "application/json",
@@ -16,7 +16,7 @@ api.interceptors.request.use(
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
-    console.log("Request sent:", config);
+    // console.log("Request sent:", config);
     return config;
   },
 

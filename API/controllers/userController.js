@@ -320,8 +320,8 @@ const login = async (req, res) => {
         });
       } else {
         return res.status(200).send({
-          success: false,
-          message: "username or password incorrect",
+          success: "false",
+          message: "username or password is incorrect",
         });
       }
     });

@@ -1,12 +1,28 @@
 const db = require("../config/db");
-
+const sendMail = require("../utils/mailer");
 // ------- create page ------------
 
 const createPage = async (req, res) => {
   try {
-    const { name, url, title, short_description, category, cat } = req.body;
+    const {
+      name,
+      title,
+      short_description,
+      description,
+      category,
+      cat,
+      image_URL,
+    } = req.body;
 
-    if (!name || !url || !title || !short_description || !category || !cat) {
+    if (
+      !name ||
+      !title ||
+      !short_description ||
+      !description ||
+      !category ||
+      !cat ||
+      !image_URL
+    ) {
       return res.status(500).send({
         success: false,
         message: "Please provide all field",
@@ -14,8 +30,8 @@ const createPage = async (req, res) => {
     }
 
     const data = await db.query(
-      "INSERT INTO pages (name, url, title, short_description, category, cat) VALUES (?,?,?,?,?,?)",
-      [name, url, title, short_description, category, cat]
+      "INSERT INTO pages (name, title, short_description, description, category, cat, image_URL) VALUES (?,?,?,?,?,?,?)",
+      [name, title, short_description, description, category, cat, image_URL]
     );
 
     if (!data) {
@@ -29,6 +45,12 @@ const createPage = async (req, res) => {
       success: true,
       message: "page Data Inserted sucessfully",
     });
+
+    sendMail(
+      "dilipbaghel162@gmail.com",
+      "Data is created",
+      "This mail is to inform you that the new data in 'pages' database has been created successfully"
+    );
   } catch (error) {
     console.log(error);
     res.status(500).send({
@@ -114,9 +136,25 @@ const updatepage = async (req, res) => {
       });
     }
 
-    const { name, url, title, short_description, category, cat } = req.body;
+    const {
+      name,
+      title,
+      short_description,
+      description,
+      category,
+      cat,
+      image_URL,
+    } = req.body;
 
-    if (!name || !url || !title || !short_description || !category || !cat) {
+    if (
+      !name ||
+      !title ||
+      !short_description ||
+      !description ||
+      !category ||
+      !cat ||
+      !image_URL
+    ) {
       return res.status(500).send({
         success: false,
         message: "Please provide all field",
@@ -124,14 +162,20 @@ const updatepage = async (req, res) => {
     }
 
     const data = await db.query(
-      `UPDATE pages SET name=?, url=?, title=?, short_description=?, category=?, cat=? WHERE id=${pageId}`,
-      [name, url, title, short_description, category, cat]
+      `UPDATE pages SET name=?, title=?, short_description=?, description=?, category=?, cat=?, image_URL=? WHERE id=${pageId}`,
+      [name, title, short_description, description, category, cat, image_URL]
     );
 
     res.status(200).send({
       success: true,
       message: "data updated sucessfully !",
     });
+
+    sendMail(
+      "dilipbaghel162@gmail.com",
+      "Data is updated",
+      "This mail is to inform you that the data of pages database has been updated successfully"
+    );
   } catch (error) {
     console.log(error);
     res.status(500).send({
@@ -159,6 +203,12 @@ const deletePage = async (req, res) => {
       success: true,
       message: "Data is deleted successfully",
     });
+
+    sendMail(
+      "dilipbaghel162@gmail.com",
+      "Data is deleted",
+      "This mail is to inform you that the data of pages database has been deleted successfully"
+    );
   } catch (error) {
     console.log(error);
     res.status(500).send({
@@ -168,4 +218,10 @@ const deletePage = async (req, res) => {
   }
 };
 
-module.exports = { getallPages, getPage, createPage, updatepage, deletePage };
+module.exports = {
+  getallPages,
+  getPage,
+  createPage,
+  updatepage,
+  deletePage,
+};

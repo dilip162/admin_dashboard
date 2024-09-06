@@ -83,7 +83,7 @@ const EditProfile = () => {
             errorMessage: "image cannot be empty",
         }
 
-    });
+})
 
     const handleEdit = (e) => {
         const { name, value } = e.target;
@@ -118,6 +118,7 @@ const EditProfile = () => {
             });
         });
     }
+  };
 
     const handlesubmit = (e) => {
         e.preventDefault();
