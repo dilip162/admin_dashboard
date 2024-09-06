@@ -1,6 +1,6 @@
 const db = require("../config/db");
 
-// get all category
+// ---------- get all category -----------
 
 const allCategories = async (req, res) => {
   try {
@@ -28,12 +28,12 @@ const allCategories = async (req, res) => {
   }
 };
 
-// Create new category
+//--------- Create new category ------------
 
 const createcategory = async (req, res) => {
   try {
-    const { name, sub_cat, description } = req.body;
-    if (!name || !sub_cat || !description) {
+    const { title, each_sub, category_URL, image, description } = req.body;
+    if (!title || !each_sub || !category_URL || !image || !description) {
       return res.status(401).send({
         success: false,
         message: "please provide the all data",
@@ -41,8 +41,8 @@ const createcategory = async (req, res) => {
     }
 
     const data = await db.query(
-      "INSERT INTO category (name, sub_cat, description) VALUES (?,?,?)",
-      [name, sub_cat, description]
+      "INSERT INTO category (title, each_sub, category_URL, image, description) VALUES (?,?,?,?,?)",
+      [title, each_sub, category_URL, image, description]
     );
 
     if (!data) {
@@ -51,8 +51,7 @@ const createcategory = async (req, res) => {
         message: "Error in INSERT query",
       });
     }
-
-    res.status(200).send({
+    +res.status(200).send({
       success: true,
       message: "Data is added sucessfully",
     });
@@ -65,7 +64,7 @@ const createcategory = async (req, res) => {
   }
 };
 
-// Update the category
+// ------------- Update the category -------------
 
 const upadteCategory = async (req, res) => {
   try {
@@ -78,8 +77,8 @@ const upadteCategory = async (req, res) => {
       });
     }
 
-    const { name, sub_cat, description } = req.body;
-    if (!name || !sub_cat || !description) {
+    const { title, each_sub, category_URL, image, description } = req.body;
+    if (!title || !each_sub || !category_URL || !image || !description) {
       return res.status(401).send({
         success: false,
         message: "please provide the all data",
@@ -87,8 +86,8 @@ const upadteCategory = async (req, res) => {
     }
 
     const data = await db.query(
-      `UPDATE category SET name=?, sub_cat=?, description=? WHERE id = ${catId}`,
-      [name, sub_cat, description]
+      `UPDATE category SET title=?, each_sub=?, category_URL=?, image=?, description=? WHERE id = ${catId}`,
+      [title, each_sub, category_URL, image, description]
     );
 
     res.status(200).send({
@@ -104,7 +103,7 @@ const upadteCategory = async (req, res) => {
   }
 };
 
-// Get category by Id
+// ---------- Get category by Id ---------------
 
 const getCategory = async (req, res) => {
   try {
@@ -140,7 +139,7 @@ const getCategory = async (req, res) => {
   }
 };
 
-// Delete the category
+// ---------- Delete the category -----------
 
 const deleteCategory = async (req, res) => {
   try {

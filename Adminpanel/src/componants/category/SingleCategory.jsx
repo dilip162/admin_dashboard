@@ -10,17 +10,18 @@ import {
 import { useParams } from "react-router-dom";
 import api from "../../utils/intercepter";
 
-const ViewPage = () => {
+const ViewCategory = () => {
   const { id } = useParams();
-  const [pageData, setPageData] = useState(null);
+  const [cateData, setCateData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await api.get(`/page/getpage/${id}`);
-        setPageData(response.data.pageDetails[0]);
+        const response = await api.get(`/category/catebyid/${id}`);
+        console.log(response.data.catDetails[0]);
+        setCateData(response.data.catDetails[0]);
         setLoading(false);
       } catch (err) {
         console.error("Error fetching data:", err);
@@ -53,7 +54,7 @@ const ViewPage = () => {
   return (
     <Container width="1" style={{ width: "100%" }}>
       <Paper
-        elevation={0} // Removed background color by setting elevation to 0
+        elevation={0}
         style={{ backgroundColor: "transparent" }} // Set background color to transparent
       >
         <Typography
@@ -62,7 +63,7 @@ const ViewPage = () => {
           gutterBottom
           style={{ color: "#3f51b5", marginBottom: "40px" }}
         >
-          Page Details
+          Category Details
         </Typography>
         <Grid
           container
@@ -78,32 +79,13 @@ const ViewPage = () => {
                   marginRight: "10px",
                 }}
               >
-                Name:
-              </Typography>
-              <Typography
-                variant="body1"
-                style={{ fontSize: "1.2rem", fontWeight: "500" }}
-              >
-                {pageData.name}
-              </Typography>
-            </Box>
-          </Grid>
-          <Grid item xs={12}>
-            <Box display="flex" alignItems="center">
-              <Typography
-                variant="h6"
-                style={{
-                  fontWeight: "bold",
-                  marginRight: "10px",
-                }}
-              >
                 Title:
               </Typography>
               <Typography
                 variant="body1"
                 style={{ fontSize: "1.2rem", fontWeight: "500" }}
               >
-                {pageData.title}
+                {cateData.title}
               </Typography>
             </Box>
           </Grid>
@@ -116,13 +98,13 @@ const ViewPage = () => {
                   marginRight: "10px",
                 }}
               >
-                Short Description:
+                each_sub:
               </Typography>
               <Typography
                 variant="body1"
                 style={{ fontSize: "1.2rem", fontWeight: "500" }}
               >
-                {pageData.short_description}
+                {cateData.each_sub}
               </Typography>
             </Box>
           </Grid>
@@ -135,16 +117,17 @@ const ViewPage = () => {
                   marginRight: "10px",
                 }}
               >
-                Description:
+                category_URL:
               </Typography>
               <Typography
                 variant="body1"
                 style={{ fontSize: "1.2rem", fontWeight: "500" }}
               >
-                {pageData.description}
+                {cateData.category_URL}
               </Typography>
             </Box>
           </Grid>
+
           <Grid item xs={12}>
             <Box display="flex" alignItems="center">
               <Typography
@@ -154,35 +137,17 @@ const ViewPage = () => {
                   marginRight: "10px",
                 }}
               >
-                Category:
+                description:
               </Typography>
               <Typography
                 variant="body1"
                 style={{ fontSize: "1.2rem", fontWeight: "500" }}
               >
-                {pageData.category}
+                {cateData.description}
               </Typography>
             </Box>
           </Grid>
-          <Grid item xs={12}>
-            <Box display="flex" alignItems="center">
-              <Typography
-                variant="h6"
-                style={{
-                  fontWeight: "bold",
-                  marginRight: "10px",
-                }}
-              >
-                Cat:
-              </Typography>
-              <Typography
-                variant="body1"
-                style={{ fontSize: "1.2rem", fontWeight: "500" }}
-              >
-                {pageData.cat}
-              </Typography>
-            </Box>
-          </Grid>
+
           <Grid item xs={12}>
             <Box display="flex" alignItems="center" flexDirection="column">
               <Typography
@@ -192,11 +157,11 @@ const ViewPage = () => {
                   marginBottom: "10px",
                 }}
               >
-                Image URL:
+                Image:
               </Typography>
               <img
-                src={pageData.image_URL}
-                alt={pageData.title}
+                src={cateData.image}
+                alt={cateData.title}
                 style={{
                   maxWidth: "8rem",
                   height: "auto",
@@ -211,7 +176,7 @@ const ViewPage = () => {
                   fontWeight: "500",
                 }}
               >
-                {pageData.image_URL}
+                {cateData.image}
               </Typography>
             </Box>
           </Grid>
@@ -221,4 +186,4 @@ const ViewPage = () => {
   );
 };
 
-export default ViewPage;
+export default ViewCategory;
