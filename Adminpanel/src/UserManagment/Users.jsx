@@ -27,7 +27,7 @@ import { useNavigate } from 'react-router-dom';
         { field: 'action', headerName: 'Action', width: 190, renderCell:(params)=> {return  (<div><Button onClick={(e)=>handleView(e,params.row.userId)}>{<VisibilityIcon/>}</Button><Button onClick={(e)=>handleEdit(e,params.row.userId)}>{<EditIcon/>}</Button> {params.row.userId!=1?<Button onClick={(e)=>handleDelete(e,params.row.userId)}>{<DeleteIcon/>}</Button>:""}</div>) }},
         
       ];
-    const paginationModel = { page: 0, pageSize: 5 };
+    const paginationModel = { page: 0, pageSize: 10 };
     const [getUsers, setUsers] = useState([]);
 
     const handleView = (e,id)=>{
@@ -41,9 +41,9 @@ import { useNavigate } from 'react-router-dom';
     const handleDelete = (e,id)=>{
         try {
             if (window.confirm("Are you sure?")) {
-              api.delete(`/delete/${id}`).then((data) => {
+              api.delete(`user/delete/${id}`).then((data) => {
                 if (data.data.success) {
-                    api.get("/getall").then((response) => {
+                    api.get("user/getall").then((response) => {
                         setUsers(response.data.data);
                     });
                   }
@@ -77,7 +77,7 @@ import { useNavigate } from 'react-router-dom';
         return () => mounted = false;
       },[])
       const getUsersList = ()=>{
-        return api.get('/getall');
+        return api.get('user/getall');
          
        }
     return(

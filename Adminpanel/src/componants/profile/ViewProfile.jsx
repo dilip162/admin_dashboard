@@ -29,7 +29,7 @@ const ViewProfile = () => {
     }, [])
 
     const getUser = () => {
-        return api.get('/get/' + id);
+        return api.get('user/get/' + id);
     }
 
     return (

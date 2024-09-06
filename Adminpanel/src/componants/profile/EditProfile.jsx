@@ -118,7 +118,7 @@ const EditProfile = () => {
             });
         });
     }
-  };
+  
 
     const handlesubmit = (e) => {
         e.preventDefault();
@@ -215,7 +215,7 @@ const EditProfile = () => {
             payload.state = getRegionValue.state;
             payload.city = getRegionValue.city
             
-            api.put("/update/" + getExistingData.id, payload
+            api.put("user/update/" + getExistingData.id, payload
             )
                 .then((response) => {
                     console.log(response);
@@ -268,16 +268,16 @@ const EditProfile = () => {
     }, [])
 
     const getCountry = () => {
-        return api.get('/countries');
+        return api.get('user/countries');
     }
 
     const getStates = (countryid) => {
-        return api.get('/countries/states/' + countryid);
+        return api.get('user/countries/states/' + countryid);
 
     }
 
     const getCity = (stateid) => {
-        return api.get('/countries/states/city/' + stateid);
+        return api.get('user/countries/states/city/' + stateid);
 
     }
 

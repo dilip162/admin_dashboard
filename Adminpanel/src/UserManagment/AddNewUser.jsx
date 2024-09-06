@@ -96,7 +96,7 @@ const AddNewUser = () => {
             payload.state_id = getAddUserData.state;
             payload.city_id = getAddUserData.city;
 
-            const response = await api.post("/create",  payload);
+            const response = await api.post("user/create",  payload);
             setResponseMessage("Data posted successfully!");
             setTimeout(() => {
                 navigate("/admin/users");
@@ -130,16 +130,16 @@ const AddNewUser = () => {
     }, [])
 
     const getCountry = () => {
-        return api.get('/countries');
+        return api.get('user/countries');
     }
 
     const getStates = (countryid) => {
-        return api.get('/countries/states/' + countryid);
+        return api.get('user/countries/states/' + countryid);
 
     }
 
     const getCity = (stateid) => {
-        return api.get('/countries/states/city/' + stateid);
+        return api.get('user/countries/states/city/' + stateid);
 
     }
 

@@ -18,7 +18,7 @@ import MoreIcon from "@mui/icons-material/MoreVert";
 import CssBaseline from "@mui/material/CssBaseline";
 import Button from "@mui/material/Button";
 import PopupState, { bindTrigger, bindMenu } from "material-ui-popup-state";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
