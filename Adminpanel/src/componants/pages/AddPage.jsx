@@ -48,7 +48,7 @@ const AddPage = () => {
 
       setResponseMessage("Data posted successfully!");
       setTimeout(() => {
-        navigate("/admin/pages/view");
+        navigate("/pages/view");
       }, 5000);
 
       setFormValues({

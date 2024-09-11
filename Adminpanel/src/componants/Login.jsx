@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const navigate = useNavigate();
+
   const [remember, setRemember] = useState(false);
   const [formValues, setFormValues] = useState({
     username: {
@@ -65,13 +66,14 @@ const Login = () => {
           password,
         })
         .then((response) => {
-          console.log(response);
           if (response.data.success) {
             localStorage.setItem("token", response.data.token);
             localStorage.setItem(
               "userdata",
               JSON.stringify(response.data.data)
             );
+
+            console.log(response.data.success);
             // Route to /admin/dashboard
             navigate("/admin/dashboard");
           }

@@ -2,13 +2,8 @@ import { useState } from "react";
 import { TextField, Button, Grid, Typography, MenuItem } from "@mui/material";
 import api from "../../utils/intercepter";
 
-const categories = [
-  { value: "category1", label: "Category 1" },
-  { value: "category2", label: "Category 2" },
-  { value: "category3", label: "Category 3" },
-];
-
 const ManageCategory = () => {
+  const [categories, setCategories] = useState([]);
   const [formData, setFormData] = useState({
     title: "",
     each_sub: "",
@@ -16,6 +11,8 @@ const ManageCategory = () => {
     description: "",
     image: "",
   });
+
+  api.get("/category/categories").then((info) => setCategories(info.data.data));
 
   const handleChange = (event) => {
     setFormData({
@@ -73,8 +70,8 @@ const ManageCategory = () => {
               required
             >
               {categories.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
+                <MenuItem key={option.id} value={option.category_URL}>
+                  {option.category_URL}
                 </MenuItem>
               ))}
             </TextField>
@@ -91,6 +88,29 @@ const ManageCategory = () => {
               required
             />
           </Grid>
+
+          {/* ------------ isParent ---------------- */}
+
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              select
+              label="isParent"
+              name="each_sub"
+              value={formData.each_sub}
+              onChange={handleChange}
+              variant="outlined"
+              required
+            >
+              {categories.map((option) => (
+                <MenuItem key={option.id} value={option.category_URL}>
+                  {option.category_URL}
+                </MenuItem>
+              ))}
+            </TextField>
+          </Grid>
+
+          {/* ------------ isParent ---------------- */}
 
           <Grid item xs={12}>
             <TextField
