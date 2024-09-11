@@ -62,7 +62,7 @@ const UpdatePage = () => {
 
       setResponseMessage("Data updated successfully!");
       setTimeout(() => {
-        navigate("/admin/pages/view");
+        navigate("/pages/view");
       }, 5000);
       setFormValues({
         name: "",
