@@ -1,6 +1,6 @@
 const db = require("../config/db");
 const sendMail = require("../utils/mailer");
-// ------- create page ------------
+// ------- create post ------------
 
 const createPost = async (req, res) => {
   try {
@@ -45,7 +45,7 @@ const createPost = async (req, res) => {
   }
 };
 
-// --------- get all pages -----------
+// --------- get all post -----------
 const getallPosts = async (req, res) => {
   try {
     const data = await db.query("SELECT * FROM posts");
@@ -72,7 +72,7 @@ const getallPosts = async (req, res) => {
   }
 };
 
-// -------- get page by id -------------
+// -------- get post by id -------------
 
 const getPost = async (req, res) => {
   try {
@@ -107,7 +107,7 @@ const getPost = async (req, res) => {
   }
 };
 
-// -------- upadte page by id -------------
+// -------- upadte post by id -------------
 
 const updatePost = async (req, res) => {
   try {
@@ -153,7 +153,7 @@ const updatePost = async (req, res) => {
   }
 };
 
-// ------------ Delete page data --------------
+// ------------ Delete post data --------------
 
 const deletePost = async (req, res) => {
   try {
