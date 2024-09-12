@@ -23,6 +23,10 @@ const SidebarMenu = () => {
       <MenuItem component={<Link to="/admin/pages" />} icon={<RiPagesFill />}>Pages</MenuItem>
       <MenuItem component={<Link to="/admin/addnewpage" />} icon={<MdAdd />}> Add New Page </MenuItem>
     </SubMenu>
+    <SubMenu label="Post Managment" icon={<RiPagesFill />} className="nav-link">
+      <MenuItem component={<Link to="/admin/posts" />} icon={<RiPagesFill />}>Posts</MenuItem>
+      <MenuItem component={<Link to="/admin/addnewpost" />} icon={<MdAdd />}> Add New Post </MenuItem>
+    </SubMenu>
   </Menu>
 </Sidebar>
     </>

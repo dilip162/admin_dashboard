@@ -21,6 +21,9 @@ import ManageCategory from "./componants/category/ManageCategory";
 import ViewCategory from "./componants/category/ViewCategory";
 import UpdateCategory from "./componants/category/UpdateCategory";
 import SingleCategory from "./componants/category/SingleCategory";
+import Posts from "./PostManagment/Posts";
+import AddNewPost from "./PostManagment/AddNewPost";
+import EditPost from "./PostManagment/EditPost";
 
 const App = () => {
   return (
@@ -52,6 +55,21 @@ const App = () => {
           element={
           <AddNewUser />
           } />
+          <Route 
+          path="/admin/posts" 
+          element={
+          <Posts />
+          } />
+          <Route 
+          path="/admin/addnewpost" 
+          element={
+          <AddNewPost />
+          } />
+          <Route 
+          path="/admin/editpost" 
+          element={
+          <EditPost />
+          } />
           <Route
             path="/admin/pages" 
             element={
@@ -70,9 +88,7 @@ const App = () => {
           <Route
               path="/admin/pages/add"
               element={
-                //<RequireAuth>
                 <AddPage />
-                //</RequireAuth>
               }
             />
 
