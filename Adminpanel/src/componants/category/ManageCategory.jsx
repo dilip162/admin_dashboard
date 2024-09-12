@@ -96,15 +96,15 @@ const ManageCategory = () => {
               fullWidth
               select
               label="isParent"
-              name="each_sub"
-              value={formData.each_sub}
+              name="isParent"
+              value={formData.isParent}
               onChange={handleChange}
               variant="outlined"
               required
             >
               {categories.map((option) => (
-                <MenuItem key={option.id} value={option.category_URL}>
-                  {option.category_URL}
+                <MenuItem key={option.id} value={option.title}>
+                  {option.title}
                 </MenuItem>
               ))}
             </TextField>
