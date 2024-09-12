@@ -16,6 +16,7 @@ app.use(cors());
 app.use("/api/v1/user", require("./routes/userRoutes"));
 app.use("/api/v1/page", require("./routes/pagesRoutes"));
 app.use("/api/v1/category", require("./routes/categoryRoutes"));
+app.use("/api/v1/post", require("./routes/postRoutes"));
 
 app.get("/test", (req, res) => {
   res.status(200).send("App is running!");

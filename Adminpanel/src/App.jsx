@@ -11,7 +11,6 @@ import Pages from "./Page Managment/Pages";
 import AddNewPage from "./Page Managment/AddNewPage";
 import EditPage from "./Page Managment/EditPage";
 
-
 // import RequireAuth from "./componants/dashboard/RequireAuth";
 import UpdatePage from "./componants/pages/UpdatePage";
 import AddPage from "./componants/pages/AddPage";
@@ -32,96 +31,27 @@ const App = () => {
         <Routes>
           <Route index element={<Login />} />
           <Route path="/admin" element={<Layout />}>
-            <Route path="/admin/dashboard" element={<Dashboard />} />
-            <Route
-              path="/admin/edituser/:id"
-              element={
-                <EditProfile />
-              }
-            />
-            <Route
-              path="/admin/viewuser/:id"
-              element={
-                <ViewProfile/>
-              }
-            />
-           <Route
-            path="/admin/users" 
-            element={
-          <Users />
-          } />
-          <Route 
-          path="/admin/addnewuser" 
-          element={
-          <AddNewUser />
-          } />
-          <Route 
-          path="/admin/posts" 
-          element={
-          <Posts />
-          } />
-          <Route 
-          path="/admin/addnewpost" 
-          element={
-          <AddNewPost />
-          } />
-          <Route 
-          path="/admin/editpost" 
-          element={
-          <EditPost />
-          } />
-          <Route
-            path="/admin/pages" 
-            element={
-          <Pages />
-          } />
-          <Route 
-          path="/admin/addnewpage" 
-          element={
-          <AddNewPage />
-          } />
-          <Route 
-          path="/admin/editpage/:id" 
-          element={
-          <EditPage />
-          } />
-          <Route
-              path="/admin/pages/add"
-              element={
-                <AddPage />
-              }
-            />
+            <Route path="dashboard" element={<Dashboard />} />
+            {/* ------------ user ------------- */}
+            <Route path="edituser/:id" element={<EditProfile />} />
+            <Route path="viewuser/:id" element={<ViewProfile />} />
+            <Route path="users" element={<Users />} />
+            <Route path="addnewuser" element={<AddNewUser />} />
+            {/* -------------- Pages ------------------------------- */}
+            <Route path="pages/view" element={<ViewPage />} />
+            <Route path="pages/update/:id" element={<UpdatePage />} />
+            <Route path="pages/view/:id" element={<SinglePage />} />
+            <Route path="pages/add" element={<AddPage />} />
+            {/* --- page Management ----- */}
+            <Route path="pages" element={<Pages />} />
+            <Route path="addnewpage" element={<AddNewPage />} />
+            <Route path="editpage/:id" element={<EditPage />} />
 
-            <Route
-              path={`/admin/pages/update/:id`}
-              element={
-                //<RequireAuth>
-                <UpdatePage />
-              }
-            />
-
-            <Route
-              path={`/admin/pages/view/:id`}
-              element={
-                //<RequireAuth>
-                <SinglePage />
-              }
-            />
-
-            <Route path="/admin/pages/view" element={<ViewPage />} />
-
-            {/* -------------  Category Routes ------------- */}
-
-            <Route path="/admin/category/create" element={<ManageCategory />} />
-            <Route path="/admin/category/view" element={<ViewCategory />} />
-            <Route
-              path="/admin/category/update/:id"
-              element={<UpdateCategory />}
-            />
-            <Route
-              path="/admin/category/view/:id"
-              element={<SingleCategory />}
-            />
+            {/* --------- Category -------------------- */}
+            <Route path="category/create" element={<ManageCategory />} />
+            <Route path="category/view" element={<ViewCategory />} />
+            <Route path="category/update/:id" element={<UpdateCategory />} />
+            <Route path="category/view/:id" element={<SingleCategory />} />
           </Route>
         </Routes>
       </BrowserRouter>
