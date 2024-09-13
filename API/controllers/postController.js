@@ -1,12 +1,11 @@
 const db = require("../config/db");
-const sendMail = require("../utils/mailer");
 // ------- create post ------------
 
 const createPost = async (req, res) => {
   try {
-    const { author, title, content } = req.body;
+    const { title, description, category_id, image_URL } = req.body;
 
-    if (!author || !title || !content) {
+    if (!title || !description || !category_id || !image_URL) {
       return res.status(500).send({
         success: false,
         message: "Please provide all field",
@@ -14,8 +13,8 @@ const createPost = async (req, res) => {
     }
 
     const data = await db.query(
-      "INSERT INTO posts (author, title, content) VALUES (?,?,?)",
-      [author, title, content]
+      "INSERT INTO posts (title, description, category_id, image_URL) VALUES (?,?,?,?)",
+      [title, description, category_id, image_URL]
     );
 
     if (!data) {
@@ -29,12 +28,6 @@ const createPost = async (req, res) => {
       success: true,
       message: "post Data Inserted sucessfully",
     });
-
-    sendMail(
-      "dilipbaghel162@gmail.com",
-      "Data is created",
-      "This mail is to inform you that the new data in 'posts' database has been created successfully"
-    );
   } catch (error) {
     console.log(error);
     res.status(500).send({
@@ -120,9 +113,9 @@ const updatePost = async (req, res) => {
       });
     }
 
-    const { author, title, content } = req.body;
+    const { title, description, category_id, image_URL } = req.body;
 
-    if (!author || !title || !content) {
+    if (!title || !description || !category_id || !image_URL) {
       return res.status(500).send({
         success: false,
         message: "Please provide all field",
@@ -130,20 +123,14 @@ const updatePost = async (req, res) => {
     }
 
     const data = await db.query(
-      `UPDATE posts SET author=?, title=?, content=? WHERE id=${postId}`,
-      [author, title, content]
+      `UPDATE posts SET title=?, description=?, category_id=?, image_URL=? WHERE id=${postId}`,
+      [title, description, category_id, image_URL]
     );
 
     res.status(200).send({
       success: true,
       message: "data updated sucessfully !",
     });
-
-    sendMail(
-      "dilipbaghel162@gmail.com",
-      "Data is updated",
-      "This mail is to inform you that the data of pages database has been updated successfully"
-    );
   } catch (error) {
     console.log(error);
     res.status(500).send({
@@ -171,12 +158,6 @@ const deletePost = async (req, res) => {
       success: true,
       message: "Data is deleted successfully",
     });
-
-    sendMail(
-      "dilipbaghel162@gmail.com",
-      "Data is deleted",
-      "This mail is to inform you that the data of pages database has been deleted successfully"
-    );
   } catch (error) {
     console.log(error);
     res.status(500).send({

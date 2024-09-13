@@ -94,7 +94,7 @@ const CustomTable = () => {
 
   const handleEdit = (id) => {
     console.log(`Edit item with id: ${id}`);
-    navigate(`/pages/update/${id}`);
+    navigate(`/admin/pages/update/${id}`);
   };
 
   // ------------ Delete Page ----------

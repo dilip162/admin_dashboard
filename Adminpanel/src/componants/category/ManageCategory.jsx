@@ -19,6 +19,8 @@ const ManageCategory = () => {
       ...formData,
       [event.target.name]: event.target.value,
     });
+
+    console.log(formData);
   };
 
   const handleSubmit = (event) => {
@@ -97,14 +99,15 @@ const ManageCategory = () => {
               select
               label="isParent"
               name="isParent"
-              value={formData.isParent}
+              value={categories.id}
               onChange={handleChange}
               variant="outlined"
               required
             >
+              {<MenuItem value="0">Parent</MenuItem>}
               {categories.map((option) => (
-                <MenuItem key={option.id} value={option.title}>
-                  {option.title}
+                <MenuItem key={option.id} value={option.category_URL}>
+                  {option.category_URL}
                 </MenuItem>
               ))}
             </TextField>
