@@ -9,19 +9,19 @@ const {
 
 const router = express.Router();
 
-// Get all categogy
+// Get all posts
 router.get("/posts", getallPosts);
 
-// create the category
+// create the post
 router.post("/createpost", createPost);
 
-// update the category
+// update the post
 router.put("/updatepost/:id", updatePost);
 
-// get the category by the id
+// get the post by the id
 router.get("/postbyid/:id", getPost);
 
-// delete category
+// delete post
 router.delete("/deletepost/:id", deletePost);
 
 module.exports = router;
